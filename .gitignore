@@ -1,7 +1,7 @@
 *.pyc
 
-template-project/build
-template-project/Pipfile.lock
+standard-project/build
+standard-project/Pipfile.lock
 project.xml.log
 
 .vscode/.cortex-debug.peripherals.state.json
