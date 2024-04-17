@@ -43,9 +43,13 @@
 /* control includes ---------------------------------------------------------*/
 #include "tap/architecture/clock.hpp"
 
+/* robot includes ---------------------------------------------------------*/
+#include "control/standard.hpp"
+
 /* define timers here -------------------------------------------------------*/
 tap::arch::PeriodicMilliTimer sendMotorTimeout(2);
 
+control::Robot robot(*src::DoNotUse_getDrivers());
 // Place any sort of input/output initialization here. For example, place
 // serial init stuff here.
 static void initializeIo(src::Drivers *drivers);
