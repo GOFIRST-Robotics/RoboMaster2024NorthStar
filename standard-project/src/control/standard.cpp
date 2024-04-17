@@ -21,8 +21,6 @@
 
 #include "tap/util_macros.hpp"
 
-#include "control/chassis/chassis_subsystem.hpp"
-
 #include "drivers.hpp"
 
 using tap::can::CanBus;

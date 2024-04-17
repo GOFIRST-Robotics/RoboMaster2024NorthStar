@@ -74,6 +74,7 @@ int main()
 
     Board::initialize();
     initializeIo(drivers);
+    robot.initSubsystemCommands();
 
 #ifdef PLATFORM_HOSTED
     tap::motorsim::SimHandler::resetMotorSims();
