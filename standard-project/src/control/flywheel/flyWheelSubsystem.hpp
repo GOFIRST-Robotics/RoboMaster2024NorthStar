@@ -38,9 +38,7 @@ namespace controll::flyWheel {
 
             void setMaxOutput();
 
-            //the output will be -1 to 1 but will have to look at manual to see at 
-            //what duty cycle and frequency the motor controller or motor can operate at
-            void setOutput(float output);
+           void disable();
 
             void initialize();
                 
@@ -49,12 +47,12 @@ namespace controll::flyWheel {
             const char* getName() override { return "FlyWheels"; }
         
         private:
-
-        #define MAXWheelSpeed
-        
         tap::gpio::Pwm *pwmController;
         tap::gpio::Pwm::Pin leftFlyWheel;
         tap::gpio::Pwm::Pin rightFlyWheel;
+
+        const float THROTTLE_IDLE = 0.16;
+        const float THROTTLE_MAX = 0.88;
     };  // namespace flyWheel
 }  // namespace tap
 

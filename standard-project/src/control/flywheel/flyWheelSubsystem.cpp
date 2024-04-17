@@ -41,10 +41,21 @@ namespace controll::flyWheel
             rightFlyWheel(rightFlyWheel)
     {}
 
-    void FlyWheelSubsystem::setMaxOutput(){
+    void FlyWheelSubsystem::setMaxOutput() {
         pwmController->write(1.0f, leftFlyWheel);
         pwmController->write(1.0f, rightFlyWheel);
     }
+
+    void FlyWheelSubsystem::disable() {
+        pwmController->write(0, leftFlyWheel);
+        pwmController->write(0, rightFlyWheel);
+    }
+
+    void FlyWheelSubsystem::initialize() {
+    pwmController->setTimerFrequency(tap::gpio::Pwm::Timer::TIMER8, 400);
+    pwmController->write(THROTTLE_IDLE, leftFlyWheel);
+    pwmController->write(THROTTLE_IDLE, rightFlyWheel);
+}
 
     
 }  // namespace tap::buzzer
