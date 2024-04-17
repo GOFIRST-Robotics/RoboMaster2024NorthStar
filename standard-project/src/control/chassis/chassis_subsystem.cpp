@@ -51,6 +51,7 @@ void ChassisSubsystem::initialize() {
         motors[i].initialize();
     }
 }
+
 // STEP 3 (Tank Drive): setVelocityTankDrive function, input should be in chassis speed in m/s
 void  ChassisSubsystem::setVelocityMecanumDrive(float translationHorizontal, float translationVertical, float rotation) {
 
@@ -81,21 +82,17 @@ void  ChassisSubsystem::setVelocityMecanumDrive(float translationHorizontal, flo
     desiredOutput[static_cast<int>(MotorId::RF)] = right_front_drive_output;
     desiredOutput[static_cast<int>(MotorId::RB)] = right_back_drive_output;
 }
+
 // STEP 4 (Tank Drive): refresh function
 void ChassisSubsystem::refresh() {
-    float leftFrontError = desiredOutput[static_cast<int>(MotorId::LF)] - motors[static_cast<int>(MotorId::LF)].getShaftRPM();
-    float leftBackError = desiredOutput[static_cast<int>(MotorId::LB)] - motors[static_cast<int>(MotorId::LB)].getShaftRPM();
-    float rightFrontError = desiredOutput[static_cast<int>(MotorId::RF)] - motors[static_cast<int>(MotorId::RF)].getShaftRPM();
-    float rightBackError = desiredOutput[static_cast<int>(MotorId::RB)] - motors[static_cast<int>(MotorId::RB)].getShaftRPM();
+    auto runPid = [](Pid &pid, Motor &motor, float desiredOutput) {
+        pid.update(desiredOutput - motor.getShaftRPM());
+        motor.setDesiredOutput(pid.getValue());
+    };
 
-    pidControllers[static_cast<int>(MotorId::LF)].update(leftFrontError);
-    pidControllers[static_cast<int>(MotorId::LB)].update(leftBackError);
-    pidControllers[static_cast<int>(MotorId::RF)].update(rightFrontError);
-    pidControllers[static_cast<int>(MotorId::RB)].update(rightBackError);
-
-    motors[static_cast<int>(MotorId::LF)].setDesiredOutput(pidControllers[static_cast<int>(MotorId::LF)].getValue());
-    motors[static_cast<int>(MotorId::LB)].setDesiredOutput(pidControllers[static_cast<int>(MotorId::LB)].getValue());
-    motors[static_cast<int>(MotorId::RF)].setDesiredOutput(pidControllers[static_cast<int>(MotorId::RF)].getValue());
-    motors[static_cast<int>(MotorId::RB)].setDesiredOutput(pidControllers[static_cast<int>(MotorId::RB)].getValue());
+    for (size_t ii = 0; ii < motors.size(); ii++)
+    {
+        runPid(pidControllers[ii], motors[ii], desiredOutput[ii]);
+    }
 }
 }  // namespace control::chassis
