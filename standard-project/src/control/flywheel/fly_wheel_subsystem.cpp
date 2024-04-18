@@ -43,19 +43,19 @@ namespace control::flyWheel
 
     void FlyWheelSubsystem::setMaxOutput() {
         
-        pwmController->write(1.0f, leftFlyWheel);
-        pwmController->write(1.0f, rightFlyWheel);
+        pwmController->write(THROTTLE_MAX, leftFlyWheel);
+        pwmController->write(THROTTLE_MAX, rightFlyWheel);
         isOn = true;
     }
 
     void FlyWheelSubsystem::disable() {
-        pwmController->write(0, leftFlyWheel);
-        pwmController->write(0, rightFlyWheel);
+        pwmController->write(THROTTLE_IDLE, leftFlyWheel);
+        pwmController->write(THROTTLE_IDLE, rightFlyWheel);
         isOn = false;
     }
 
     void FlyWheelSubsystem::initialize() {
-    pwmController->setTimerFrequency(tap::gpio::Pwm::Timer::TIMER8, 400);
+    pwmController->setTimerFrequency(tap::gpio::Pwm::Timer::TIMER1, 500);
     pwmController->write(THROTTLE_IDLE, leftFlyWheel);
     pwmController->write(THROTTLE_IDLE, rightFlyWheel);
 }
