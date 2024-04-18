@@ -17,11 +17,13 @@
  * along with aruw-edu.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+
+
+#include "drivers.hpp"
+
 #include "standard.hpp"
 
 #include "tap/util_macros.hpp"
-
-#include "drivers.hpp"
 
 using tap::can::CanBus;
 using tap::communication::serial::Remote;
