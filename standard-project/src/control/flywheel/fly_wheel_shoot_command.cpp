@@ -17,40 +17,46 @@
  * along with aruw-edu.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#pragma once
-
-#include "tap/control/hold_command_mapping.hpp"
-#include "tap/control/hold_repeat_command_mapping.hpp"
-#include "tap/control/setpoint/commands/move_integral_command.hpp"
 #include "control/flywheel/fly_wheel_subsystem.hpp"
 #include "control/flywheel/fly_wheel_shoot_command.hpp"
+
+#include "tap/algorithms/math_user_utils.hpp"
+
 #include "control/control_operator_interface.hpp"
 
-class Drivers;
 
-namespace control
+using tap::algorithms::limitVal;
+
+namespace control::flyWheel
 {
-class Robot
+// STEP 1 (Tank Drive): Constructor
+flyWheelCommand::flyWheelCommand(
+    control::flyWheel::FlyWheelSubsystem &flyWheel, control::ControlOperatorInterface &operatorInterface) :
+    flyWheel(flyWheel),
+    operatorInterface(operatorInterface)
 {
-public:
-    Robot(src::Drivers &drivers);
+    addSubsystemRequirement(&flyWheel);
+}
 
-    void initSubsystemCommands();
-    
+void flyWheelCommand::initialize(){
+    flyWheel.initialize();
+}
 
-private:
-    void initializeSubsystems();
-    void registerSoldierSubsystems();
-    void setDefaultSoldierCommands();
-    void startSoldierCommands();
-    void registerSoldierIoMappings();
 
-    src::Drivers &drivers;
 
-    control::ControlOperatorInterface m_ControlOperatorInterface;
+// STEP 2 (Tank Drive): execute function
+void flyWheelCommand::execute()
+{
+    if(operatorInterface.isRightSwitchUp()){
+        flyWheel.setMaxOutput();
+    } else {
+        flyWheel.disable();
+    }
+}
 
-    control::flyWheel::FlyWheelSubsystem m_FlyWheel;
+void flyWheelCommand::end(bool interrupted){
+    flyWheel.disable();
+}
 
-    control::flyWheel::flyWheelCommand m_FlyWheelCommand;
-};  
-}  // namespace control
+
+};  // namespace control

@@ -31,8 +31,14 @@ using tap::motor::MotorId;
 namespace control
 {
 Robot::Robot(src::Drivers &drivers) 
-    : drivers(drivers)
-    
+    : drivers(drivers),
+    m_FlyWheel(
+        drivers,
+        &drivers.pwm,
+        tap::gpio::Pwm::C1,
+        tap::gpio::Pwm::C2),
+    m_ControlOperatorInterface(drivers.remote),
+    m_FlyWheelCommand(m_FlyWheel, m_ControlOperatorInterface)
 {
 }
 
@@ -47,14 +53,17 @@ void Robot::initSubsystemCommands()
 
 void Robot::initializeSubsystems()
 {
+    m_FlyWheel.initialize();
 }
 
 void Robot::registerSoldierSubsystems()
 {
+    drivers.commandScheduler.registerSubsystem(&m_FlyWheel);
 }
 
 void Robot::setDefaultSoldierCommands()
 {
+    m_FlyWheel.setDefaultCommand(&m_FlyWheelCommand);
 }
 
 void Robot::startSoldierCommands() {}

@@ -21,14 +21,14 @@
  * along with Taproot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "control/flywheel/flyWheelSubsystem.hpp"
+#include "control/flywheel/fly_wheel_subsystem.hpp"
 #include "tap/algorithms/math_user_utils.hpp"
 
 #include "modm/architecture/interface/delay.hpp"
 
 using tap::gpio::Pwm;
 
-namespace controll::flyWheel
+namespace control::flyWheel
 {
     FlyWheelSubsystem::FlyWheelSubsystem(
         src::Drivers& drivers,
@@ -42,13 +42,16 @@ namespace controll::flyWheel
     {}
 
     void FlyWheelSubsystem::setMaxOutput() {
+        
         pwmController->write(1.0f, leftFlyWheel);
         pwmController->write(1.0f, rightFlyWheel);
+        isOn = true;
     }
 
     void FlyWheelSubsystem::disable() {
         pwmController->write(0, leftFlyWheel);
         pwmController->write(0, rightFlyWheel);
+        isOn = false;
     }
 
     void FlyWheelSubsystem::initialize() {

@@ -19,22 +19,31 @@
 
 #pragma once
 
-#include "tap/util_macros.hpp"
+#include "tap/control/command.hpp"
+#include "control/flywheel/fly_wheel_subsystem.hpp"
+#include "control/control_operator_interface.hpp"
 
-namespace tap::communication::serial
+namespace control::flyWheel
 {
-class Remote;
-}
+    class flyWheelCommand : public tap::control::Command
+    {
+    public:
+        flyWheelCommand(flyWheel::FlyWheelSubsystem &flyWheel, ControlOperatorInterface &operatorInterface);
 
-namespace control
-{
-class ControlOperatorInterface
-{
-public:
-    ControlOperatorInterface(tap::communication::serial::Remote &remote);
-    
-    bool isRightSwitchUp();
-private:
-    tap::communication::serial::Remote &remote;
-};
-}  // namespace control
+        const char *getName() const override { return "Chassis tank drive"; }
+
+        void initialize() override;
+
+        void execute() override;
+
+        void end(bool interrupted) override;
+
+        bool isFinished() const { return false;}
+
+    private:
+        control::flyWheel::FlyWheelSubsystem &flyWheel;
+
+        ControlOperatorInterface &operatorInterface;
+        
+    };
+}  // namespace control::chassis

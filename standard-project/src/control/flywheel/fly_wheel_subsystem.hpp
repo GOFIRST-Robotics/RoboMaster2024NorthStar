@@ -27,7 +27,7 @@
 #include <tap/control/subsystem.hpp>
 #include "drivers.hpp"
 
-namespace controll::flyWheel {
+namespace control::flyWheel {
     class FlyWheelSubsystem : public tap::control::Subsystem {
         public:
             FlyWheelSubsystem(
@@ -40,9 +40,9 @@ namespace controll::flyWheel {
 
            void disable();
 
-            void initialize();
+            void initialize() override;
                 
-            void refresh() override;
+            void refresh() override {};
 
             const char* getName() override { return "FlyWheels"; }
         
@@ -53,6 +53,8 @@ namespace controll::flyWheel {
 
         const float THROTTLE_IDLE = 0.16;
         const float THROTTLE_MAX = 0.88;
+
+        bool isOn = false;
     };  // namespace flyWheel
 }  // namespace tap
 
