@@ -21,6 +21,7 @@
 
 #include <array>
 
+#include "drivers.hpp"
 #include "tap/control/subsystem.hpp"
 #include "tap/util_macros.hpp"
 
