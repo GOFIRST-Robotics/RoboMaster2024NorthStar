@@ -75,9 +75,9 @@ int main()
     Board::initialize();
     initializeIo(drivers);
     robot.initSubsystemCommands();
-    // drivers->pwm.setTimerFrequency(tap::gpio::Pwm::Timer::TIMER1, 200);
-    // drivers->pwm.write(0.5, tap::gpio::Pwm::Pin::C1);
-    // drivers->pwm.write(0.5, tap::gpio::Pwm::Pin::C2);
+    // drivers->pwm.setTimerFrequency(tap::gpio::Pwm::Timer::TIMER1, 250);
+    // drivers->pwm.write(0.4, tap::gpio::Pwm::Pin::C1);
+    // drivers->pwm.write(0.4, tap::gpio::Pwm::Pin::C2);
     
 
 #ifdef PLATFORM_HOSTED
