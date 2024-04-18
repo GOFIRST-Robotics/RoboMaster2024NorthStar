@@ -34,7 +34,6 @@
 #include "tap/motor/dji_motor.hpp"
 #endif
 
-class src::Drivers;
 
 namespace control::chassis
 {
@@ -73,6 +72,8 @@ public:
 #endif
 
     static constexpr float MAX_WHEELSPEED_RPM = 7000;
+
+    static constexpr float MAX_CHASSIS_SPEED_MPS = 3.0f;
 
     ChassisSubsystem(src::Drivers& drivers, const ChassisConfig& config);
 

@@ -37,7 +37,7 @@ motors{{
         Motor(&drivers, config.leftFrontId, config.canBus, false, "Front Left Drive Motor"),
         Motor(&drivers, config.leftBackId, config.canBus, false, "Back Left Drive Motor"),
         Motor(&drivers, config.rightFrontId, config.canBus, true, "Front Right Drive Motor"),
-        Motor(&drivers, config.rightFrontId, config.canBus, true, "Back Right Drive Motor")
+        Motor(&drivers, config.rightBackId, config.canBus, true, "Back Right Drive Motor")
 }}
 {
     for(int i = 0; i < 4; i++) {
@@ -55,17 +55,20 @@ void ChassisSubsystem::initialize() {
 // STEP 3 (Tank Drive): setVelocityTankDrive function, input should be in chassis speed in m/s
 void  ChassisSubsystem::setVelocityMecanumDrive(float translationHorizontal, float translationVertical, float rotation) {
 
-    float left_front_input = translationHorizontal + translationVertical - rotation;
-    float left_back_input = -translationHorizontal + translationVertical - rotation;
-    float right_front_input = -translationHorizontal + translationVertical + rotation;
+    float left_front_input = translationHorizontal + translationVertical + rotation;
+    float left_back_input = -translationHorizontal + translationVertical + rotation;
+    float right_front_input = -translationHorizontal + translationVertical - rotation;
     float right_back_input = translationHorizontal + translationVertical - rotation;
 
-    float maximum = std::max<float>({left_front_input, left_back_input, right_front_input, right_back_input});
-    
-    left_front_input /= maximum;
-    left_back_input /= maximum;
-    right_front_input /= maximum;
-    right_back_input /= maximum;
+    float maximum_input = std::max<float>({std::abs(left_front_input), std::abs(left_back_input), std::abs(right_front_input), std::abs(right_back_input)});
+    if(maximum_input != 0.0f) {
+        if(maximum_input > MAX_CHASSIS_SPEED_MPS) {
+            left_front_input = left_front_input / maximum_input * MAX_CHASSIS_SPEED_MPS;
+            left_back_input = left_back_input / maximum_input * MAX_CHASSIS_SPEED_MPS;
+            right_front_input = right_front_input / maximum_input * MAX_CHASSIS_SPEED_MPS;
+            right_back_input = right_back_input / maximum_input * MAX_CHASSIS_SPEED_MPS;
+        }
+    }
 
     float left_front_rpm = mpsToRpm(left_front_input);
     float left_back_rpm = mpsToRpm(left_back_input);

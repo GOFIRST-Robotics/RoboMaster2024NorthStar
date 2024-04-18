@@ -44,7 +44,7 @@ Robot::Robot(src::Drivers &drivers)
               .canBus = CanBus::CAN_BUS1,
               .wheelVelocityPidConfig = modm::Pid<float>::Parameter(10, 0, 0, 0, 16'000),
           }),
-      m_MecanumDriveCommand(m_ChassisSubsystem,drivers.controlOperatorInterface)
+      m_MecanumDriveCommand(m_ChassisSubsystem, drivers.controlOperatorInterface)
 {
 }
 

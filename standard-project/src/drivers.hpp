@@ -32,7 +32,7 @@ class Drivers : public tap::Drivers
 #ifdef ENV_UNIT_TESTS
 public:
 #endif
-    Drivers() : tap::Drivers(), controlOperatorInterface{remote} {}
+    Drivers() : tap::Drivers(), controlOperatorInterface(remote) {}
 
 public:
     control::ControlOperatorInterface controlOperatorInterface;

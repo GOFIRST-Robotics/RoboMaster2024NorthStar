@@ -36,12 +36,14 @@ float ControlOperatorInterface::getMecanumHorizontalTranslation() {
 }
 
 float ControlOperatorInterface::getMecanumVerticalTranslation() {
-    return limitVal(remote.getChannel(Remote::Channel::LEFT_VERTICAL), -1.0f, 1.0f);
+    float stuff = limitVal(remote.getChannel(Remote::Channel::LEFT_VERTICAL), -1.0f, 1.0f);
+    return stuff;
 }
 
 float ControlOperatorInterface::getMecanumRotation()
 {
-    return limitVal(remote.getChannel(Remote::Channel::RIGHT_HORIZONTAL), -1.0f, 1.0f);
+    float stuff = limitVal(remote.getChannel(Remote::Channel::RIGHT_HORIZONTAL), -1.0f, 1.0f);
+    return stuff;
 }
 
 
