@@ -22,6 +22,8 @@
 #include "tap/control/hold_command_mapping.hpp"
 #include "tap/control/hold_repeat_command_mapping.hpp"
 #include "tap/control/setpoint/commands/move_integral_command.hpp"
+#include "control/chassis/chassis_subsystem.hpp"
+#include "control/chassis/mecanum_drive_command.hpp"
 
 class Drivers;
 
@@ -43,5 +45,9 @@ private:
     void registerSoldierIoMappings();
 
     src::Drivers &drivers;
+
+    control::chassis::ChassisSubsystem m_ChassisSubsystem;
+
+    control::chassis::MecanumDriveCommand m_MecanumDriveCommand;
 };
 }  // namespace control

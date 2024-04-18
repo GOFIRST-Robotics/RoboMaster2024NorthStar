@@ -31,8 +31,18 @@ using tap::motor::MotorId;
 namespace control
 {
 Robot::Robot(src::Drivers &drivers) 
-    : drivers(drivers)
-    
+    : drivers(drivers),
+      m_ChassisSubsystem(
+          drivers,
+          chassis::ChassisConfig{
+              .leftFrontId = MotorId::MOTOR1,
+              .leftBackId = MotorId::MOTOR3,
+              .rightBackId = MotorId::MOTOR4,
+              .rightFrontId = MotorId::MOTOR2,
+              .canBus = CanBus::CAN_BUS1,
+              .wheelVelocityPidConfig = modm::Pid<float>::Parameter(10, 0, 0, 0, 16'000),
+          }),
+      m_MecanumDriveCommand(m_ChassisSubsystem,drivers.controlOperatorInterface)
 {
 }
 
@@ -47,14 +57,17 @@ void Robot::initSubsystemCommands()
 
 void Robot::initializeSubsystems()
 {
+    m_ChassisSubsystem.initialize();
 }
 
 void Robot::registerSoldierSubsystems()
 {
+    drivers.commandScheduler.registerSubsystem(&m_ChassisSubsystem);
 }
 
 void Robot::setDefaultSoldierCommands()
 {
+    m_ChassisSubsystem.setDefaultCommand(&m_MecanumDriveCommand);
 }
 
 void Robot::startSoldierCommands() {}

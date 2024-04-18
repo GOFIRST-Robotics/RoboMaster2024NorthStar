@@ -21,6 +21,7 @@
 #define DRIVERS_HPP_
 
 #include "tap/drivers.hpp"
+#include "control/control_operator_interface.hpp"
 
 namespace src
 {
@@ -31,9 +32,10 @@ class Drivers : public tap::Drivers
 #ifdef ENV_UNIT_TESTS
 public:
 #endif
-    Drivers() : tap::Drivers() {}
+    Drivers() : tap::Drivers(), controlOperatorInterface{remote} {}
 
 public:
+    control::ControlOperatorInterface controlOperatorInterface;
 };  // class Drivers
 
 }  // namespace src
