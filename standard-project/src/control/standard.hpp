@@ -23,6 +23,7 @@
 #include "tap/control/hold_repeat_command_mapping.hpp"
 #include "tap/control/setpoint/commands/move_integral_command.hpp"
 
+
 class Drivers;
 
 namespace control
@@ -43,5 +44,8 @@ private:
     void registerSoldierIoMappings();
 
     src::Drivers &drivers;
+
+    
+    
 };
 }  // namespace control
