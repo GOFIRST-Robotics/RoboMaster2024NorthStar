@@ -20,8 +20,8 @@
 #ifndef ROBOT_TURRET_SUBSYSTEM_HPP_
 #define ROBOT_TURRET_SUBSYSTEM_HPP_
 
-#include "control/turret/turret_orientation_interface.hpp"
-#include "control/turret/turret_subsystem.hpp"
+#include "../turret_components/turret_orientation_interface.hpp"
+#include "turret_subsystem.hpp"
 
 namespace control::turret
 {

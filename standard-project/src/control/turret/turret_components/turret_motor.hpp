@@ -24,7 +24,7 @@
 #include "tap/motor/motor_interface.hpp"
 #include "tap/util_macros.hpp"
 
-#include "turretInterface/turret_controller_interface.hpp"
+#include "turret_controller_interface.hpp"
 #include "modm/math/geometry/angle.hpp"
 
 #include "turret_motor_config.hpp"

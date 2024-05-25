@@ -21,10 +21,10 @@
 
 #include "tap/drivers.hpp"
 
-#include "../turretCosntants/turret_constants.hpp"
-#include "../turret_subsystem.hpp"
+#include "../turret_constants/standard_turret_constants.hpp"
+#include "../turret_super_structure/turret_subsystem.hpp"
 
-#include "turret_gravity_compensation.hpp"
+#include "../algorithms/turret_gravity_compensation.hpp"
 
 using namespace tap::control::turret;
 

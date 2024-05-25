@@ -24,7 +24,7 @@
 
 #include "tap/algorithms/smooth_pid.hpp"
 
-#include "control/turret/turretInterface/turret_controller_interface.hpp"
+#include "turret_controller_interface.hpp"
 
 namespace control::turret
 {
