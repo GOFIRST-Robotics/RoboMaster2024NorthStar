@@ -25,6 +25,8 @@
 #include "tap/control/subsystem.hpp"
 #include "tap/control/turret_subsystem_interface.hpp"
 #include "tap/motor/dji_motor.hpp"
+#include "turret_gyro.hpp"
+
 
 #include "../turret_components/turret_motor_config.hpp"
 
@@ -39,10 +41,6 @@
 
 #include "modm/math/filter/pid.hpp"
 
-namespace can
-{
-class TurretMCBCanComm;
-}
 
 namespace control::turret::algorithms
 {
@@ -75,7 +73,7 @@ public:
         tap::motor::MotorInterface* yawMotor,
         const TurretMotorConfig& pitchMotorConfig,
         const TurretMotorConfig& yawMotorConfig,
-        const can::TurretMCBCanComm* turretMCB);
+        TurretMCBCGryo turretGyro);
 
     void initialize() override;
 
@@ -93,7 +91,8 @@ public:
 
     mockable inline bool isOnline() const { return pitchMotor.isOnline() && yawMotor.isOnline(); }
 
-    const inline can::TurretMCBCanComm* getTurretMCB() const { return turretMCB; }
+    //fetches the reference for the turretGyro
+    TurretMCBCGryo* getTurretGyro() { return &turretGyro; }
 
 #ifdef ENV_UNIT_TESTS
     testing::NiceMock<mock::TurretMotorMock> pitchMotor;
@@ -103,10 +102,11 @@ public:
     TurretMotor pitchMotor;
     /// Associated with and contains logic for controlling the turret's yaw motor
     TurretMotor yawMotor;
+
+    TurretMCBCGryo turretGyro;
 #endif
 
-protected:
-    const can::TurretMCBCanComm* turretMCB;
+
 };  // class TurretSubsystem
 
 }  // namespace control::turret

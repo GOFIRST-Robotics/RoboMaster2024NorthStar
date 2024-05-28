@@ -39,11 +39,12 @@ TurretSubsystem::TurretSubsystem(
     MotorInterface *yawMotor,
     const TurretMotorConfig &pitchMotorConfig,
     const TurretMotorConfig &yawMotorConfig,
-    const can::TurretMCBCanComm *turretMCB)
+    TurretMCBCGryo turretGyro)
     : tap::control::Subsystem(drivers),
       pitchMotor(pitchMotor, pitchMotorConfig),
       yawMotor(yawMotor, yawMotorConfig),
-      turretMCB(turretMCB)
+      turretGyro(turretGyro)
+
 {
     assert(drivers != nullptr);
     assert(pitchMotor != nullptr);
