@@ -28,9 +28,9 @@ namespace control::turret
 /**
  * Turret subsystem for the Standard.
  */
-class StandardTurretSubsystem final : RobotTurretSubsystem
+class StandardTurretSubsystem final : public RobotTurretSubsystem
 {
-    
+    using RobotTurretSubsystem::RobotTurretSubsystem;
     float getTurretHeading() override;
     float getTurretPitch() override;
     float getChassisHeading();

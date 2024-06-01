@@ -44,7 +44,7 @@ public:
     virtual inline float getTurretHeading() = 0;
 
 
-    virtual inline float getTurretToChassisYaw() = 0;
+    virtual inline float getChassisHeading() = 0;
     
     /**
      * @return An angle between [0, M_TWOPI] that is the chassis-relative angle of the

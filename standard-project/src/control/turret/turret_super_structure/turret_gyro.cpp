@@ -56,6 +56,12 @@ namespace control::turret
         return currYaw;
     }
 
+
+    tap::algorithms::WrappedFloat TurretMCBCGryo::getYawWrapped() {
+        return tap::algorithms::WrappedFloat(getYaw(), 0, M_TWOPI);
+    }
+
+
     float TurretMCBCGryo::getYawUnwrapped() const { 
         return currYaw + M_TWOPI * static_cast<float>(yawRevolutions);
     }

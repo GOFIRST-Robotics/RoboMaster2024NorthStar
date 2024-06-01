@@ -25,15 +25,14 @@ namespace control::turret
 
 {
 
-float StandardTurretSubsystem::getTurretHeading() { return getTurretGyro()->getYaw() }
+float StandardTurretSubsystem::getTurretHeading() { return getTurretGyro()->getYaw(); }
 
 float StandardTurretSubsystem::getTurretPitch() { return getTurretGyro()->getPitch(); }
 
 float StandardTurretSubsystem::getChassisHeading() {
-    tap::algorithms::WrappedFloat turretHeadingWrapped = WrappedFloat(getTurretHeading());
-    float chassisHeading =  - yawMotor.getChassisFrameMeasuredAngle();
-
-
+    WrappedFloat turretHeading = WrappedFloat(getTurretHeading(), 0, M_TWOPI);
+    WrappedFloat yawMotorWrapped = yawMotor.getChassisFrameMeasuredAngle();
+    return turretHeading.minDifference(yawMotorWrapped);
 }
 
 }  // namespace aruwsrc::control::turret

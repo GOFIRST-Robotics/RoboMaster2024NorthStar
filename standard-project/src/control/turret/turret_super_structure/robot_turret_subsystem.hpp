@@ -28,7 +28,7 @@ namespace control::turret
 /**
  * Subsystem that must be extended. Extends both the TurretSubsystem and TurretOrientationInterface.
  */
-class RobotTurretSubsystem : virtual public control::turret::TurretSubsystem,
+class RobotTurretSubsystem : public control::turret::TurretSubsystem,
                              public control::turret::TurretPositionInterface
 {
     using TurretSubsystem::TurretSubsystem;

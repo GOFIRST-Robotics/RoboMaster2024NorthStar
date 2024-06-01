@@ -26,6 +26,8 @@
 #include "modm/architecture/interface/register.hpp"
 #include "modm/math/geometry/angle.hpp"
 
+#include "additionalTapResources/wrapped_float.hpp"
+
 
 
 namespace src
@@ -75,6 +77,11 @@ public:
      * @return turret yaw angle in radians, normalized between [-pi, pi]
      */
      inline float getYaw() {}
+
+     /**
+     * @return turret yaw angle in radians, normalized between [-pi, pi]
+     */
+     inline tap::algorithms::WrappedFloat getYawWrapped() {}
 
     /**
      * @return An unwrapped (not normalized) turret yaw angle, in rad. This object keeps track of
