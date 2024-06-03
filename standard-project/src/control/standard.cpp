@@ -78,7 +78,8 @@ Robot::Robot(src::Drivers &drivers)
         &pitchController,
         USER_YAW_INPUT_SCALAR,
         USER_PITCH_INPUT_SCALAR,
-        0)
+        0
+    )
 {
     
 }
@@ -94,17 +95,14 @@ void Robot::initSubsystemCommands()
 
 void Robot::initializeSubsystems()
 {
-    turret.initialize();
 }
 
 void Robot::registerSoldierSubsystems()
 {
-    drivers.commandScheduler.registerSubsystem(&turret);
 }
 
 void Robot::setDefaultSoldierCommands()
 {
-    turret.setDefaultCommand(&turretUserControlCommand);
 }
 
 void Robot::startSoldierCommands() {}

@@ -27,7 +27,8 @@ namespace control::turret
 
 float StandardTurretSubsystem::getTurretHeading() { return getTurretGyro()->getYaw(); }
 
-float StandardTurretSubsystem::getTurretPitch() { return getTurretGyro()->getPitch(); }
+// float StandardTurretSubsystem::getTurretPitch() { return getTurretGyro()->getPitch(); }
+float StandardTurretSubsystem::getTurretPitch() { return 0.05; }
 
 float StandardTurretSubsystem::getChassisHeading() {
     WrappedFloat turretHeading = WrappedFloat(getTurretHeading(), 0, M_TWOPI);
