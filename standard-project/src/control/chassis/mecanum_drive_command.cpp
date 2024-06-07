@@ -46,10 +46,15 @@ void MecanumDriveCommand::execute()
         return limitVal(raw, -1.0f, 1.0f) * MAX_CHASSIS_SPEED_MPS;
     };
 
-    chassis.setVelocityMecanumDrive(
-        scale(operatorInterface.getMecanumHorizontalTranslation()),
-        scale(operatorInterface.getMecanumVerticalTranslation()),
-        scale(operatorInterface.getMecanumRotation()));
+    // chassis.setVelocityMecanumDrive(
+    //     scale(operatorInterface.getMecanumHorizontalTranslation()),
+    //     scale(operatorInterface.getMecanumVerticalTranslation()),
+    //     scale(operatorInterface.getMecanumRotation()));
+
+    chassis.setVelocityMecanumDriveWithWheels(
+        operatorInterface.getMecanumHorizontalTranslationKeyBoard(),
+        operatorInterface.getMecanumVerticalTranslationKeyBoard(),
+        operatorInterface.getMecanumRotationKeyBoard());
 }
 
 // STEP 3 (Tank Drive): end function

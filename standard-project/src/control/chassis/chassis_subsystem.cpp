@@ -52,7 +52,47 @@ void ChassisSubsystem::initialize() {
     }
 }
 
-// STEP 3 (Tank Drive): setVelocityTankDrive function, input should be in chassis speed in m/s
+
+void  ChassisSubsystem::setVelocityMecanumDriveWithWheels(float x, float y, float r) {
+
+    // this is the distance between the center of the chassis to the wheel
+    float maxWheelSpeed = MAX_WHEELSPEED_RPM;
+    float chassisRotationRatio = sqrtf(
+        powf(0.366 / 2.0f, 2.0f) + powf(0.385 / 2.0f, 2.0f));
+
+    // to take into account the location of the turret so we rotate around the turret rather
+    // than the center of the chassis, we calculate the offset and than multiply however
+    // much we want to rotate by
+    float leftFrontRotationRatio =
+        modm::toRadian(chassisRotationRatio);
+    float rightFrontRotationRatio =
+        modm::toRadian(chassisRotationRatio);
+    float leftBackRotationRatio =
+        modm::toRadian(chassisRotationRatio);
+    float rightBackRotationRatio =
+        modm::toRadian(chassisRotationRatio);
+
+    float chassisRotateTranslated = modm::toDegree(r) / chassisRotationRatio;
+    desiredOutput[static_cast<int>(MotorId::LF)] = limitVal(
+        -y + x - chassisRotateTranslated * leftFrontRotationRatio,
+        -maxWheelSpeed,
+        maxWheelSpeed);
+    desiredOutput[static_cast<int>(MotorId::RF)] = limitVal(
+        -y - x - chassisRotateTranslated * rightFrontRotationRatio,
+        -maxWheelSpeed,
+        maxWheelSpeed);
+    desiredOutput[static_cast<int>(MotorId::LB)] = limitVal(
+        y + x - chassisRotateTranslated * leftBackRotationRatio,
+        -maxWheelSpeed,
+        maxWheelSpeed);
+    desiredOutput[static_cast<int>(MotorId::RB)] = limitVal(
+        y - x - chassisRotateTranslated * rightBackRotationRatio,
+        -maxWheelSpeed,
+        maxWheelSpeed);
+
+    // desiredRotation = r;
+}
+
 void  ChassisSubsystem::setVelocityMecanumDrive(float translationHorizontal, float translationVertical, float rotation) {
 
     float left_front_input = translationHorizontal + translationVertical + rotation;

@@ -92,6 +92,12 @@ public:
     ///
     void setVelocityMecanumDrive(float translationHorizontal, float translation_vertical, float rotation);
 
+    /// @brief pass in the direct wheel speeds for each wheel 
+    /// @param translationHorizontal 
+    /// @param translation_vertical 
+    /// @param rotation 
+    void setVelocityMecanumDriveWithWheels(float translationHorizontal, float translation_vertical, float rotation);
+
     ///
     /// @brief Runs velocity PID controllers for the drive motors.
     ///
