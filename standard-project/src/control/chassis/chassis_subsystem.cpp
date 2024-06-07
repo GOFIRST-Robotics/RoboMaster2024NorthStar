@@ -78,7 +78,7 @@ void  ChassisSubsystem::setVelocityMecanumDriveWithWheels(float x, float y, floa
         -maxWheelSpeed,
         maxWheelSpeed);
     desiredOutput[static_cast<int>(MotorId::RF)] = limitVal(
-        -y - x - chassisRotateTranslated * rightFrontRotationRatio,
+        -(-y - x - chassisRotateTranslated * rightFrontRotationRatio),
         -maxWheelSpeed,
         maxWheelSpeed);
     desiredOutput[static_cast<int>(MotorId::LB)] = limitVal(
@@ -86,7 +86,7 @@ void  ChassisSubsystem::setVelocityMecanumDriveWithWheels(float x, float y, floa
         -maxWheelSpeed,
         maxWheelSpeed);
     desiredOutput[static_cast<int>(MotorId::RB)] = limitVal(
-        y - x - chassisRotateTranslated * rightBackRotationRatio,
+        -(y - x - chassisRotateTranslated * rightBackRotationRatio),
         -maxWheelSpeed,
         maxWheelSpeed);
 

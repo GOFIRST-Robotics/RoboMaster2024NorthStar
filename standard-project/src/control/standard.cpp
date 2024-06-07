@@ -37,10 +37,10 @@ Robot::Robot(src::Drivers &drivers)
       m_ChassisSubsystem(
           drivers,
           chassis::ChassisConfig{
-              .leftFrontId = MotorId::MOTOR1,
+              .leftFrontId = MotorId::MOTOR2,
               .leftBackId = MotorId::MOTOR3,
               .rightBackId = MotorId::MOTOR4,
-              .rightFrontId = MotorId::MOTOR2,
+              .rightFrontId = MotorId::MOTOR1,
               .canBus = CanBus::CAN_BUS1,
               .wheelVelocityPidConfig = modm::Pid<float>::Parameter(10, 0, 0, 0, 16'000),
           }),
