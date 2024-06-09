@@ -40,7 +40,7 @@ Robot::Robot(src::Drivers &drivers)
         drivers.remote),
     pitchMotor(
         &drivers, 
-        MotorId::MOTOR5, 
+        MotorId::MOTOR6, 
         CanBus::CAN_BUS1, 
         false, "pitchMotor"),
     turretPitchMotor(
@@ -48,7 +48,7 @@ Robot::Robot(src::Drivers &drivers)
         PITCH_MOTOR_CONFIG),
     yawMotor(
         &drivers, 
-        MotorId::MOTOR6, 
+        MotorId::MOTOR5, 
         CanBus::CAN_BUS1, 
         false, "YawMotor"),
     turretYawMotor(
@@ -95,19 +95,23 @@ void Robot::initSubsystemCommands()
 
 void Robot::initializeSubsystems()
 {
+    turret.initialize();
 }
 
 void Robot::registerSoldierSubsystems()
 {
+    drivers.commandScheduler.registerSubsystem(&turret);
 }
 
 void Robot::setDefaultSoldierCommands()
 {
+    turret.setDefaultCommand(&turretUserControlCommand);
 }
 
 void Robot::startSoldierCommands() {}
 
 void Robot::registerSoldierIoMappings()
 {
+
 }   
 }  // namespace control

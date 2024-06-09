@@ -1,32 +1,84 @@
 /*
  * Copyright (c) 2020-2022 Advanced Robotics at the University of Washington <robomstr@uw.edu>
  *
- * This file is part of aruw-edu.
+ * This file is part of aruw-mcb.
  *
- * aruw-edu is free software: you can redistribute it and/or modify
+ * aruw-mcb is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * aruw-edu is distributed in the hope that it will be useful,
+ * aruw-mcb is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with aruw-edu.  If not, see <https://www.gnu.org/licenses/>.
+ * along with aruw-mcb.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "control_operator_interface.hpp"
+#include "control/control_operator_interface.hpp"
 
 #include "tap/algorithms/math_user_utils.hpp"
-#include "tap/communication/serial/remote.hpp"
+#include "tap/architecture/clock.hpp"
+#include "tap/drivers.hpp"
 
-using tap::algorithms::limitVal;
-using tap::communication::serial::Remote;
+
+using namespace tap::algorithms;
+using namespace tap::communication::serial;
 
 namespace control
 {
-ControlOperatorInterface::ControlOperatorInterface(Remote &remote) : remote(remote) {}
+
+
+
+float ControlOperatorInterface::getTurretYawInput(uint8_t turretID)
+{
+    switch (turretID)
+    {
+        case 0:
+            return -remote.getChannel(Remote::Channel::RIGHT_HORIZONTAL) +
+                   static_cast<float>(limitVal<int16_t>(
+                       -remote.getMouseX(),
+                       -USER_MOUSE_YAW_MAX,
+                       USER_MOUSE_YAW_MAX)) *
+                       USER_MOUSE_YAW_SCALAR;
+        case 1:
+            return -remote.getChannel(Remote::Channel::LEFT_HORIZONTAL) +
+                   static_cast<float>(limitVal<int16_t>(
+                       -remote.getMouseX(),
+                       -USER_MOUSE_YAW_MAX,
+                       USER_MOUSE_YAW_MAX)) *
+                       USER_MOUSE_YAW_SCALAR;
+
+        default:
+            return 0;
+    }
+}
+
+
+float ControlOperatorInterface::getTurretPitchInput(uint8_t turretID)
+{
+    switch (turretID)
+    {
+        case 0:
+            return -remote.getChannel(Remote::Channel::RIGHT_VERTICAL) +
+                   static_cast<float>(limitVal<int16_t>(
+                       remote.getMouseY(),
+                       -USER_MOUSE_PITCH_MAX,
+                       USER_MOUSE_PITCH_MAX)) *
+                       USER_MOUSE_PITCH_SCALAR;
+        case 1:
+            return -remote.getChannel(Remote::Channel::LEFT_VERTICAL) +
+                   static_cast<float>(limitVal<int16_t>(
+                       remote.getMouseY(),
+                       -USER_MOUSE_PITCH_MAX,
+                       USER_MOUSE_PITCH_MAX)) *
+                       USER_MOUSE_PITCH_SCALAR;
+        default:
+            return 0;
+    }
+}
+
 
 }  // namespace control

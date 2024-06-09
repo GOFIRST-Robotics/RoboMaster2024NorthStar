@@ -21,7 +21,7 @@
 
 #include "tap/drivers.hpp"
 
-#include "additionalTapResources/control_operator_additional.hpp"
+#include "control/control_operator_interface.hpp"
 
 namespace control::turret::user
 {

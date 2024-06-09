@@ -34,7 +34,7 @@ namespace control::turret
     return currRoll;
     }
 
-    float TurretMCBCGryo::getRollUnwrapped() const { 
+    float TurretMCBCGryo::getRollUnwrapped() { 
         return currRoll + M_TWOPI * static_cast<float>(rollRevolutions);
     }
 
@@ -45,7 +45,7 @@ namespace control::turret
         return currPitch;
     }
 
-    float TurretMCBCGryo::getPitchUnwrapped() const { 
+    float TurretMCBCGryo::getPitchUnwrapped() { 
         return currPitch + M_TWOPI * static_cast<float>(pitchRevolutions);
     }
 
@@ -62,7 +62,7 @@ namespace control::turret
     }
 
 
-    float TurretMCBCGryo::getYawUnwrapped() const { 
+    float TurretMCBCGryo::getYawUnwrapped() { 
         return currYaw + M_TWOPI * static_cast<float>(yawRevolutions);
     }
 }  // namespace aruwsrc::can

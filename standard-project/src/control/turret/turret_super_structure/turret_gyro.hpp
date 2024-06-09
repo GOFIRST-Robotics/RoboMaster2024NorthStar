@@ -17,8 +17,8 @@
  * along with aruw-mcb.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef TURRET_MCB_CAN_COMM_HPP_
-#define TURRET_MCB_CAN_COMM_HPP_
+#ifndef TURRET_GYRO_HPP_
+#define TURRET_GYRO_HPP_
 
 #include "tap/architecture/periodic_timer.hpp"
 #include "tap/communication/can/can_rx_listener.hpp"
@@ -46,49 +46,46 @@ namespace control::turret
 class TurretMCBCGryo
 {
 public:
-    TurretMCBCGryo(src::Drivers* drivers){}
-
- 
-
+    TurretMCBCGryo(src::Drivers* drivers);
     /**
      * @return turret yaw angle in radians, normalized between [-pi, pi]
      */
-    inline float getRoll() {}
+    float getRoll();
     /**
      * @return An unwrapped (not normalized) turret yaw angle, in rad. This object keeps track of
      * the number of revolutions that the attached turret IMU has taken, and the number of
      * revolutions is reset once the IMU is recalibrated or if the turret IMU comes disconnected.
      */
-    inline float getRollUnwrapped() const {}
+    float getRollUnwrapped();
 
     /**
      * @return turret pitch angle in rad, a value normalized between [-pi, pi]
      */
-    inline float getPitch() {}
+    float getPitch();
 
     /**
      * @return An unwrapped (not normalized) turret pitch angle, in rad. This object keeps track of
      * the number of revolutions that the attached turret IMU has taken, and the number of
      * revolutions is reset once the IMU is recalibrated or if the turret IMU comes disconnected.
      */
-    mockable inline float getPitchUnwrapped() const {}
+    float getPitchUnwrapped();
 
     /**
      * @return turret yaw angle in radians, normalized between [-pi, pi]
      */
-     inline float getYaw() {}
+     float getYaw();
 
      /**
      * @return turret yaw angle in radians, normalized between [-pi, pi]
      */
-     inline tap::algorithms::WrappedFloat getYawWrapped() {}
+     tap::algorithms::WrappedFloat getYawWrapped();
 
     /**
      * @return An unwrapped (not normalized) turret yaw angle, in rad. This object keeps track of
      * the number of revolutions that the attached turret IMU has taken, and the number of
      * revolutions is reset once the IMU is recalibrated or if the turret IMU comes disconnected.
      */
-    inline float getYawUnwrapped() const {}
+    float getYawUnwrapped();
 
 private:
     tap::Drivers* drivers;
