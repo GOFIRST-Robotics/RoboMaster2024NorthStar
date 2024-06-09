@@ -20,6 +20,7 @@
 #pragma once
 
 #include "tap/control/hold_command_mapping.hpp"
+#include "tap/control/hold_repeat_command_mapping.hpp"
 
 #include "control/agitator/velocity_agitator_subsystem.hpp"
 
@@ -65,6 +66,7 @@ private:
     tap::control::setpoint::UnjamIntegralCommand unjamAgitatorCommand;
     tap::control::setpoint::MoveUnjamIntegralComprisedCommand rotateAndUnjamAgitatorCommand;
     tap::control::HoldCommandMapping leftMousePressed;
+    tap::control::HoldRepeatCommandMapping rightMousePressed;
 
 
 };

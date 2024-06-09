@@ -62,6 +62,7 @@ void VelocityAgitatorSubsystem::initialize() { agitatorMotor.initialize(); }
 
 bool isConnectedDebug = false;
 float outputDebug = 0;
+float positionDebug = 0;
 void VelocityAgitatorSubsystem::refresh()
 {
     if (!isOnline())
@@ -86,6 +87,8 @@ void VelocityAgitatorSubsystem::refresh()
 
     isConnectedDebug = isOnline();
     outputDebug = agitatorMotor.getOutputDesired();
+    positionDebug = agitatorMotor.getEncoderUnwrapped();
+
 }
 
 bool VelocityAgitatorSubsystem::calibrateHere()
