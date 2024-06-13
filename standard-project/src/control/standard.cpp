@@ -48,7 +48,7 @@ Robot::Robot(src::Drivers &drivers)
         PITCH_MOTOR_CONFIG),
     yawMotor(
         &drivers, 
-        MotorId::MOTOR5, 
+        MotorId::MOTOR8, 
         CanBus::CAN_BUS1, 
         false, "YawMotor"),
     turretYawMotor(
