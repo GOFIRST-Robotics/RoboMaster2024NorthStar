@@ -20,7 +20,7 @@
 #ifndef TURRET_MOTOR_HPP_
 #define TURRET_MOTOR_HPP_
 
-#include "additionalTapResources/wrapped_float.hpp"
+#include "tap/algorithms/wrapped_float.hpp"
 #include "tap/motor/motor_interface.hpp"
 #include "tap/util_macros.hpp"
 
