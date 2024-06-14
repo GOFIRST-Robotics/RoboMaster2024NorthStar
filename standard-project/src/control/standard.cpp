@@ -40,7 +40,7 @@ Robot::Robot(src::Drivers &drivers)
         drivers.remote),
     pitchMotor(
         &drivers, 
-        MotorId::MOTOR6, 
+        MotorId::MOTOR7, 
         CanBus::CAN_BUS1, 
         false, "pitchMotor"),
     turretPitchMotor(
