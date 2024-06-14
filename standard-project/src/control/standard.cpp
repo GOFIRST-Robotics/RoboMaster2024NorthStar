@@ -17,11 +17,13 @@
  * along with aruw-edu.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+
+
+#include "drivers.hpp"
+
 #include "standard.hpp"
 
 #include "tap/util_macros.hpp"
-
-#include "drivers.hpp"
 #include "turret/turret_constants/standard_turret_constants.hpp"
 
 
