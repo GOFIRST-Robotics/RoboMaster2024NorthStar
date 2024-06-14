@@ -44,6 +44,9 @@ namespace control::flyWheel
         control::flyWheel::FlyWheelSubsystem &flyWheel;
 
         ControlOperatorInterface &operatorInterface;
+
+        float calibrationTimeStart = 0;
+
         
     };
 }  // namespace control::chassis

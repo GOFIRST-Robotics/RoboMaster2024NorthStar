@@ -32,5 +32,9 @@ ControlOperatorInterface::ControlOperatorInterface(Remote &remote) : remote(remo
     bool ControlOperatorInterface::isRightSwitchUp(){
         return (remote.getSwitch(Remote::Switch::RIGHT_SWITCH) == Remote::SwitchState::UP);
     }
+
+    bool ControlOperatorInterface::isGKeyPressed(){
+        return (remote.keyPressed(Remote::Key::G));
+    }
     
 }  // namespace control

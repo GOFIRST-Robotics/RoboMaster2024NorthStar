@@ -48,6 +48,12 @@ namespace control::flyWheel
         isOn = true;
     }
 
+    void FlyWheelSubsystem::setMatchOutput() {
+        pwmController->write(MATCH_SPEED, leftFlyWheel);
+        pwmController->write(MATCH_SPEED, rightFlyWheel);
+        isOn = false;
+    }
+
     void FlyWheelSubsystem::disable() {
         pwmController->write(THROTTLE_IDLE, leftFlyWheel);
         pwmController->write(THROTTLE_IDLE, rightFlyWheel);

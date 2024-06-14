@@ -38,6 +38,8 @@ namespace control::flyWheel {
 
             void setMaxOutput();
 
+            void setMatchOutput();
+
            void disable();
 
             void initialize() override;
@@ -53,6 +55,7 @@ namespace control::flyWheel {
 
         const float THROTTLE_IDLE = 0.16;
         const float THROTTLE_MAX = 0.88;
+        const float MATCH_SPEED = 0.75;
 
         bool isOn = false;
     };  // namespace flyWheel

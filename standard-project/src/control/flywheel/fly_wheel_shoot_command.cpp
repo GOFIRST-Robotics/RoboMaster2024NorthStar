@@ -24,6 +24,8 @@
 
 #include "control/control_operator_interface.hpp"
 
+#include "tap/architecture/clock.hpp"
+
 
 using tap::algorithms::limitVal;
 
@@ -40,6 +42,7 @@ flyWheelCommand::flyWheelCommand(
 
 void flyWheelCommand::initialize(){
     flyWheel.initialize();
+    calibrationTimeStart  =  tap::arch::clock::getTimeMilliseconds();
 }
 
 
@@ -48,9 +51,15 @@ void flyWheelCommand::initialize(){
 void flyWheelCommand::execute()
 {
     if(operatorInterface.isRightSwitchUp()){
-        flyWheel.setMaxOutput();
+        if(calibrationTimeStart - tap::arch::clock::getTimeMilliseconds() < 1000){
+            flyWheel.setMaxOutput();
+        } else {
+            flyWheel.setMatchOutput();
+        }
+        
     } else {
         flyWheel.disable();
+        calibrationTimeStart = tap::arch::clock::getTimeMilliseconds();
     }
 }
 

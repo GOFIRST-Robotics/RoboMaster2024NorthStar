@@ -34,6 +34,8 @@ public:
     ControlOperatorInterface(tap::communication::serial::Remote &remote);
     
     bool isRightSwitchUp();
+
+    bool isGKeyPressed();
 private:
     tap::communication::serial::Remote &remote;
 };
