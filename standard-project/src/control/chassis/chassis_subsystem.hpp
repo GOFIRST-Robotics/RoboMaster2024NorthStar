@@ -103,7 +103,7 @@ public:
     ///
     void refresh() override;
 
-    const char* getName() override { return "Chassis"; }
+    const char* getName() const override { return "Chassis"; }
 
 private:
     inline float mpsToRpm(float mps)
