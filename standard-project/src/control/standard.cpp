@@ -99,7 +99,13 @@ Robot::Robot(src::Drivers &drivers)
         {&rotateAndUnjamAgitatorCommand},
         RemoteMapState(
             RemoteMapState::MouseButton::RIGHT),
-            true)
+            true),
+    leftSwitchUp(
+        &drivers,
+        {&rotateAndUnjamAgitatorCommand},
+        RemoteMapState(
+            Remote::Switch::LEFT_SWITCH, Remote::SwitchState::UP), 
+            true )
 {
 }
 
@@ -132,5 +138,6 @@ void Robot::registerSoldierIoMappings()
 {
     drivers.commandMapper.addMap(&leftMousePressed);
     drivers.commandMapper.addMap(&rightMousePressed);
+    drivers.commandMapper.addMap(&leftSwitchUp);
 }   
 }  // namespace control
