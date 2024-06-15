@@ -35,8 +35,8 @@ Robot::Robot(src::Drivers &drivers)
     m_FlyWheel(
         drivers,
         &drivers.pwm,
-        tap::gpio::Pwm::C1,
-        tap::gpio::Pwm::C2),
+        tap::gpio::Pwm::C6,
+        tap::gpio::Pwm::C7),
     m_ControlOperatorInterface(drivers.remote),
     m_FlyWheelCommand(m_FlyWheel, m_ControlOperatorInterface)
 {

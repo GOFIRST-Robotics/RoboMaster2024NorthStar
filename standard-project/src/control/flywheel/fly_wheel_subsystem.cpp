@@ -61,7 +61,7 @@ namespace control::flyWheel
     }
 
     void FlyWheelSubsystem::initialize() {
-    pwmController->setTimerFrequency(tap::gpio::Pwm::Timer::TIMER1, 500);
+    pwmController->setTimerFrequency(tap::gpio::Pwm::Timer::TIMER8, 500);
     pwmController->write(THROTTLE_IDLE, leftFlyWheel);
     pwmController->write(THROTTLE_IDLE, rightFlyWheel);
 }

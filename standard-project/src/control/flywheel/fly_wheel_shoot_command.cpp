@@ -51,7 +51,7 @@ void flyWheelCommand::initialize(){
 void flyWheelCommand::execute()
 {
     if(operatorInterface.isRightSwitchUp()){
-        if(calibrationTimeStart - tap::arch::clock::getTimeMilliseconds() < 1000){
+        if( tap::arch::clock::getTimeMilliseconds() - calibrationTimeStart < 1000){
             flyWheel.setMaxOutput();
         } else {
             flyWheel.setMatchOutput();
@@ -61,6 +61,12 @@ void flyWheelCommand::execute()
         flyWheel.disable();
         calibrationTimeStart = tap::arch::clock::getTimeMilliseconds();
     }
+
+    // if(operatorInterface.isRightSwitchUp()){
+    //     flyWheel.setMaxOutput();
+    // } else {
+    //     flyWheel.disable();
+    // }
 }
 
 void flyWheelCommand::end(bool interrupted){
