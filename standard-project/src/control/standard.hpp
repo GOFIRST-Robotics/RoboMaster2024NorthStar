@@ -21,7 +21,21 @@
 
 #include "tap/control/hold_command_mapping.hpp"
 #include "tap/control/hold_repeat_command_mapping.hpp"
+
+#include "control/agitator/velocity_agitator_subsystem.hpp"
+
 #include "tap/control/setpoint/commands/move_integral_command.hpp"
+#include "tap/control/setpoint/commands/unjam_integral_command.hpp"
+#include "tap/control/setpoint/commands/move_unjam_integral_comprised_command.hpp"
+
+
+#include "tap/algorithms/smooth_pid.hpp"
+
+
+// using name
+
+
+
 #include "control/flywheel/fly_wheel_subsystem.hpp"
 #include "control/flywheel/fly_wheel_shoot_command.hpp"
 #include "control/control_operator_interface.hpp"
@@ -46,6 +60,18 @@ private:
     void registerSoldierIoMappings();
 
     src::Drivers &drivers;
+    control::agitator::VelocityAgitatorSubsystemConfig agitatorSubsystemConfig;
+    tap::algorithms::SmoothPidConfig agitatorVelocityPidConfig;
+    control::agitator::VelocityAgitatorSubsystem agitatorSubsystem;
+    tap::control::setpoint::MoveIntegralCommand::Config rotateAgitatorCommandConfig;
+    tap::control::setpoint::MoveIntegralCommand rotateAgitatorCommand;
+    tap::control::setpoint::UnjamIntegralCommand::Config unjamAgitatorCommandConfig;
+    tap::control::setpoint::UnjamIntegralCommand unjamAgitatorCommand;
+    tap::control::setpoint::MoveUnjamIntegralComprisedCommand rotateAndUnjamAgitatorCommand;
+    tap::control::HoldCommandMapping leftMousePressed;
+    tap::control::HoldRepeatCommandMapping rightMousePressed;
+
+
 
     control::ControlOperatorInterface m_ControlOperatorInterface;
 
