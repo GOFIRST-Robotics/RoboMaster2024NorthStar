@@ -106,7 +106,13 @@ Robot::Robot(src::Drivers &drivers)
         tap::gpio::Pwm::C6,
         tap::gpio::Pwm::C7),
     m_ControlOperatorInterface(drivers.remote),
-    m_FlyWheelCommand(m_FlyWheel, m_ControlOperatorInterface)
+    m_FlyWheelCommand(m_FlyWheel, m_ControlOperatorInterface),
+        leftSwitchUp(
+        &drivers,
+        {&rotateAndUnjamAgitatorCommand},
+        RemoteMapState(
+            Remote::Switch::LEFT_SWITCH, Remote::SwitchState::UP), 
+            true )
 {
 }
 
@@ -142,5 +148,6 @@ void Robot::registerSoldierIoMappings()
 {
     drivers.commandMapper.addMap(&leftMousePressed);
     drivers.commandMapper.addMap(&rightMousePressed);
+    drivers.commandMapper.addMap(&leftSwitchUp);
 }   
 }  // namespace control

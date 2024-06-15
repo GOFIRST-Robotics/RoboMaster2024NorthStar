@@ -70,6 +70,7 @@ private:
     tap::control::setpoint::MoveUnjamIntegralComprisedCommand rotateAndUnjamAgitatorCommand;
     tap::control::HoldCommandMapping leftMousePressed;
     tap::control::HoldRepeatCommandMapping rightMousePressed;
+    tap::control::HoldRepeatCommandMapping leftSwitchUp;
 
 
 
