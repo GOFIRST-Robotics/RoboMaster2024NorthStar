@@ -89,8 +89,9 @@ public:
 
     void onHardwareTestStart() override;
 
-    mockable inline bool isOnline() const { return pitchMotor.isOnline() && yawMotor.isOnline(); }
+    // mockable inline bool isOnline() const { return pitchMotor.isOnline() && yawMotor.isOnline(); }
 
+    mockable inline bool isOnline() const { return pitchMotor.isOnline();}
     //fetches the reference for the turretGyro
     TurretMCBCGryo* getTurretGyro() { return &turretGyro; }
 

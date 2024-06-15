@@ -61,26 +61,27 @@ void TurretUserControlCommand::execute()
     uint32_t dt = currTime - prevTime;
     prevTime = currTime;
 
-    const float pitchSetpoint =
-        pitchController->getSetpoint() +
-        userPitchInputScalar * controlOperatorInterface.getTurretPitchInput(turretID);
-    pitchController->runController(dt, pitchSetpoint);
+    // const float pitchSetpoint =
+    //     pitchController->getSetpoint() +
+    //     userPitchInputScalar * controlOperatorInterface.getTurretPitchInput(turretID);
+    // pitchController->runController(dt, pitchSetpoint);
 
-    const float yawSetpoint =
-        yawController->getSetpoint() +
-        userYawInputScalar * controlOperatorInterface.getTurretYawInput(turretID);
-    yawController->runController(dt, yawSetpoint);
+    // const float yawSetpoint =
+    //     yawController->getSetpoint() +
+    //     userYawInputScalar * controlOperatorInterface.getTurretYawInput(turretID);
+    // yawController->runController(dt, yawSetpoint);
 }
 
 bool TurretUserControlCommand::isFinished() const
 {
-    return !pitchController->isOnline() && !yawController->isOnline();
+    // return !pitchController->isOnline() && !yawController->isOnline();
+    return !pitchController->isOnline();
     // return !yawController->isOnline();
 }
 
 void TurretUserControlCommand::end(bool)
 {
-    turretSubsystem->yawMotor.setMotorOutput(0);
+    // turretSubsystem->yawMotor.setMotorOutput(0);
     turretSubsystem->pitchMotor.setMotorOutput(0);
 }
 

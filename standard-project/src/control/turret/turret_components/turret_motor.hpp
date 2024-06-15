@@ -248,7 +248,7 @@ public:
         return setpointToUnwrap;
     }
 
-private:
+// private:
     const TurretMotorConfig config;
 
     /// Low-level motor object that this object interacts with
