@@ -50,6 +50,7 @@ void ChassisFrameYawTurretController::initialize()
 void ChassisFrameYawTurretController::runController(const uint32_t dt, const float desiredSetpoint)
 {
     // limit the yaw min and max angles
+    turretMotor.updateMotorAngle();
     turretMotor.setChassisFrameSetpoint(desiredSetpoint);
 
     // position controller based on turret yaw gimbal
@@ -58,7 +59,7 @@ void ChassisFrameYawTurretController::runController(const uint32_t dt, const flo
     float pidOutput =
         pid.runController(positionControllerError, turretMotor.getChassisFrameVelocity(), dt);
 
-    turretMotor.setMotorOutput(pidOutput);
+    // turretMotor.setMotorOutput(pidOutput);
 }
 
 void ChassisFrameYawTurretController::setSetpoint(float desiredSetpoint)
@@ -78,6 +79,12 @@ float ChassisFrameYawTurretController::getMeasurement() const
 
 bool ChassisFrameYawTurretController::isOnline() const { return turretMotor.isOnline(); }
 
+
+
+
+
+
+
 ChassisFramePitchTurretController::ChassisFramePitchTurretController(
     TurretMotor &pitchMotorp,
     const tap::algorithms::SmoothPidConfig &pidConfig)
@@ -95,25 +102,40 @@ void ChassisFramePitchTurretController::initialize()
     }
 }
 
+
+float pitchErrorDebug = 0;
+float pitchSetpointDebug = 0;
+float pitchAngleDebug = 0;
+float gravitationalOffsetDebug = 0;
+float pitchPidOutputDebug = 0;
 void ChassisFramePitchTurretController::runController(
     const uint32_t dt,
     const float desiredSetpoint)
 {
     // limit the yaw min and max angles
+    turretMotor.updateMotorAngle();
     turretMotor.setChassisFrameSetpoint(desiredSetpoint);
+    pitchSetpointDebug = desiredSetpoint;
 
+    
     // position controller based on turret pitch gimbal
+    // float positionControllerError = turretMotor.getValidMinError(turretMotor.getChassisFrameSetpoint(), turretMotor.getChassisFrameUnwrappedMeasuredAngle()* 3/4);
+
     float positionControllerError = turretMotor.getValidChassisMeasurementError();
+
+
+    pitchErrorDebug = positionControllerError;
+    pitchAngleDebug = turretMotor.getChassisFrameUnwrappedMeasuredAngle();
 
     float pidOutput =
         pid.runController(positionControllerError, turretMotor.getChassisFrameVelocity(), dt);
+    pitchPidOutputDebug = pidOutput;
 
-
-    pidOutput += computeGravitationalForceOffset(
-        TURRET_CG_X,
-        TURRET_CG_Z,
+        pidOutput += computeGravitationalForceOffset(
+        59,
+        0,
         -turretMotor.getAngleFromCenter(),
-        GRAVITY_COMPENSATION_SCALAR);
+        1600);
 
     turretMotor.setMotorOutput(pidOutput);
 }

@@ -44,7 +44,7 @@ Robot::Robot(src::Drivers &drivers)
         &drivers, 
         MotorId::MOTOR5, 
         CanBus::CAN_BUS1, 
-        false, "pitchMotor"),
+        true, "pitchMotor"),
     turretPitchMotor(
         &pitchMotor,
         PITCH_MOTOR_CONFIG),

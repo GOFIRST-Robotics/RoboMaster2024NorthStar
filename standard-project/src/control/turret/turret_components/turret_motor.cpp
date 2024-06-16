@@ -41,13 +41,10 @@ TurretMotor::TurretMotor(tap::motor::MotorInterface *motor, const TurretMotorCon
     assert(motor != nullptr);
 }
 
-bool isYawMotorOnlineDebug = false;
-float encoderUnwrappedDebug = 0;
-float encoderOffestSummed = 0;
-float chassisFrameUnwrappedMeasurementDebug2 = 0;
+
 void TurretMotor::updateMotorAngle()
 {
-    isYawMotorOnlineDebug = isOnline();
+
     if (isOnline())
     {
         int64_t encoderUnwrapped = motor->getEncoderUnwrapped();
@@ -81,14 +78,6 @@ void TurretMotor::updateMotorAngle()
 
         lastUpdatedEncoderValue = encoderUnwrapped;
 
-
-        encoderUnwrappedDebug = encoderUnwrapped;
-        encoderOffestSummed = -static_cast<int64_t>(config.startEncoderValue) +
-                startEncoderOffset *
-                M_TWOPI / static_cast<float>(DjiMotor::ENC_RESOLUTION) +
-            config.startAngle;
-
-
         
         chassisFrameUnwrappedMeasurement =
             static_cast<float>(
@@ -96,9 +85,6 @@ void TurretMotor::updateMotorAngle()
                 startEncoderOffset) *
                 M_TWOPI / static_cast<float>(DjiMotor::ENC_RESOLUTION) +
             config.startAngle;
-
-
-        chassisFrameUnwrappedMeasurementDebug2 = chassisFrameUnwrappedMeasurement;
 
         chassisFrameMeasuredAngle.setWrappedValue(chassisFrameUnwrappedMeasurement);
     }
@@ -130,6 +116,7 @@ void TurretMotor::setMotorOutput(float out)
     }
 }
 
+
 void TurretMotor::setChassisFrameSetpoint(float setpoint)
 {
     chassisFrameSetpoint = setpoint;
@@ -140,16 +127,10 @@ void TurretMotor::setChassisFrameSetpoint(float setpoint)
     }
 }
 
-float chassisFrameUnwrappedMeasurementDebug = 0;
-float chassisFrameSetpointDebug = 0;
-float ValidMinErrorDebug = 0;
+
 float TurretMotor::getValidChassisMeasurementError() const
 {
-    chassisFrameUnwrappedMeasurementDebug = chassisFrameUnwrappedMeasurement;
-    chassisFrameSetpointDebug = chassisFrameSetpoint;
-
-    ValidMinErrorDebug = getValidMinError(chassisFrameSetpoint, chassisFrameUnwrappedMeasurementDebug2);
-    return getValidMinError(chassisFrameSetpoint, chassisFrameUnwrappedMeasurementDebug2);
+    return getValidMinError(chassisFrameSetpoint, this->chassisFrameUnwrappedMeasurement);
 }
 
 float TurretMotor::getValidChassisMeasurementErrorWrapped() const
