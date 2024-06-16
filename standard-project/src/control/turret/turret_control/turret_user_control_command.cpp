@@ -56,7 +56,7 @@ void TurretUserControlCommand::initialize()
 }
 
 
-float pitchSetpointDebug = 0;
+// float pitchSetpointDebug = 0;
 void TurretUserControlCommand::execute()
 {
     uint32_t currTime = tap::arch::clock::getTimeMilliseconds();
@@ -66,27 +66,27 @@ void TurretUserControlCommand::execute()
     const float pitchSetpoint =
         pitchController->getSetpoint() +
         userPitchInputScalar * controlOperatorInterface.getTurretPitchInput(turretID);
-    pitchSetpointDebug = pitchSetpoint;
+    // pitchSetpointDebug = pitchSetpoint;
 
     pitchController->runController(dt, pitchSetpoint);
 
 
-    // const float yawSetpoint =
-    //     yawController->getSetpoint() +
-    //     userYawInputScalar * controlOperatorInterface.getTurretYawInput(turretID);
-    // yawController->runController(dt, yawSetpoint);
+    const float yawSetpoint =
+        yawController->getSetpoint() +
+        userYawInputScalar * controlOperatorInterface.getTurretYawInput(turretID);
+    yawController->runController(dt, yawSetpoint);
 }
 
 bool TurretUserControlCommand::isFinished() const
 {
-    // return !pitchController->isOnline() && !yawController->isOnline();
-    return !pitchController->isOnline();
+    return !pitchController->isOnline() && !yawController->isOnline();
+    // return !pitchController->isOnline();
     // return !yawController->isOnline();
 }
 
 void TurretUserControlCommand::end(bool)
 {
-    // turretSubsystem->yawMotor.setMotorOutput(0);
+    turretSubsystem->yawMotor.setMotorOutput(0);
     turretSubsystem->pitchMotor.setMotorOutput(0);
 }
 

@@ -85,13 +85,13 @@ public:
     //     pitchMotor.setMotorOutput(0);
     // }
 
-    // const char* getName() const override { return "Turret"; }
+    const char* getName() const override { return "Turret"; }
 
     void onHardwareTestStart() override;
 
-    // mockable inline bool isOnline() const { return pitchMotor.isOnline() && yawMotor.isOnline(); }
+    mockable inline bool isOnline() const { return pitchMotor.isOnline() && yawMotor.isOnline(); }
 
-    mockable inline bool isOnline() const { return pitchMotor.isOnline();}
+    // mockable inline bool isOnline() const { return pitchMotor.isOnline();}
     //fetches the reference for the turretGyro
     TurretMCBCGryo* getTurretGyro() { return &turretGyro; }
 

@@ -48,24 +48,24 @@ TurretSubsystem::TurretSubsystem(
 {
     assert(drivers != nullptr);
     assert(pitchMotor != nullptr);
-    // assert(yawMotor != nullptr);
+    assert(yawMotor != nullptr);
 }
 
 void TurretSubsystem::initialize()
 {
-    // yawMotor.initialize();
+    yawMotor.initialize();
     pitchMotor.initialize();
 }
 
 void TurretSubsystem::refresh()
 {
-    // yawMotor.updateMotorAngle();
+    yawMotor.updateMotorAngle();
     pitchMotor.updateMotorAngle();
 }
 
 void TurretSubsystem::onHardwareTestStart()
 {
-    // yawMotor.setMotorOutput(0);
+    yawMotor.setMotorOutput(0);
     pitchMotor.setMotorOutput(0);
 }
 

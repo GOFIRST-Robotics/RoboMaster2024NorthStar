@@ -48,29 +48,28 @@ void ChassisFrameYawTurretController::initialize()
 }
 
 
-float unwrappedPrimaryYawDebug = 0;
-float positionControllerErrorDebug = 0;
-float desiredYawSetpointDebug = 0;
-float debugPidOutput = 0;
+// float unwrappedPrimaryYawDebug = 0;
+// float positionControllerErrorDebug = 0;
+// float desiredYawSetpointDebug = 0;
+// float debugPidOutput = 0;
 void ChassisFrameYawTurretController::runController(const uint32_t dt, const float desiredSetpoint)
 {
-    turretMotor.updateMotorAngle();
     // limit the yaw min and max angles
     turretMotor.updateMotorAngle();
     turretMotor.setChassisFrameSetpoint(desiredSetpoint);
 
-    desiredYawSetpointDebug = turretMotor.getChassisFrameSetpoint();
+    // desiredYawSetpointDebug = turretMotor.getChassisFrameSetpoint();
 
     // position controller based on turret yaw gimbal
     float unwrappedPrimaryYaw = turretMotor.getChassisFrameUnwrappedMeasuredAngle()* 3/4;
-    unwrappedPrimaryYawDebug = unwrappedPrimaryYaw;
+    // unwrappedPrimaryYawDebug = unwrappedPrimaryYaw;
     float positionControllerError = turretMotor.getValidMinError(turretMotor.getChassisFrameSetpoint(), unwrappedPrimaryYaw);
 
 
     float pidOutput =
         pid.runController(positionControllerError, turretMotor.getChassisFrameVelocity(), dt);
 
-    debugPidOutput = pidOutput;
+    // debugPidOutput = pidOutput;
 
     turretMotor.setMotorOutput(pidOutput);
 }
@@ -116,11 +115,11 @@ void ChassisFramePitchTurretController::initialize()
 }
 
 
-float pitchErrorDebug = 0;
-float pitchSetpointDebug = 0;
-float pitchAngleDebug = 0;
-float gravitationalOffsetDebug = 0;
-float pitchPidOutputDebug = 0;
+// float pitchErrorDebug = 0;
+// float pitchSetpointDebug = 0;
+// float pitchAngleDebug = 0;
+// float gravitationalOffsetDebug = 0;
+// float pitchPidOutputDebug = 0;
 void ChassisFramePitchTurretController::runController(
     const uint32_t dt,
     const float desiredSetpoint)
@@ -128,7 +127,7 @@ void ChassisFramePitchTurretController::runController(
     // limit the yaw min and max angles
     turretMotor.updateMotorAngle();
     turretMotor.setChassisFrameSetpoint(desiredSetpoint);
-    pitchSetpointDebug = desiredSetpoint;
+    // pitchSetpointDebug = desiredSetpoint;
 
     
     // position controller based on turret pitch gimbal
@@ -137,12 +136,12 @@ void ChassisFramePitchTurretController::runController(
     float positionControllerError = turretMotor.getValidChassisMeasurementError();
 
 
-    pitchErrorDebug = positionControllerError;
-    pitchAngleDebug = turretMotor.getChassisFrameUnwrappedMeasuredAngle();
+    // pitchErrorDebug = positionControllerError;
+    // pitchAngleDebug = turretMotor.getChassisFrameUnwrappedMeasuredAngle();
 
     float pidOutput =
         pid.runController(positionControllerError, turretMotor.getChassisFrameVelocity(), dt);
-    pitchPidOutputDebug = pidOutput;
+    // pitchPidOutputDebug = pidOutput;
 
         pidOutput += computeGravitationalForceOffset(
         59,
