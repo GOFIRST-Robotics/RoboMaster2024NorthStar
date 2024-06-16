@@ -93,6 +93,70 @@ void  ChassisSubsystem::setVelocityMecanumDriveWithWheels(float x, float y, floa
     // desiredRotation = r;
 }
 
+
+
+void ChassisSubsystem::computeDesiredUserTranslation(
+    control::ControlOperatorInterface *operatorInterface,
+    tap::Drivers *drivers,
+    ChassisSubsystem *chassis,
+    float chassisRotation,
+    float *chassisXDesiredWheelspeed,
+    float *chassisYDesiredWheelspeed)
+{
+    if (drivers == nullptr || operatorInterface == nullptr || chassis == nullptr ||
+        chassisXDesiredWheelspeed == nullptr || chassisYDesiredWheelspeed == nullptr)
+    {
+        return;
+    }
+
+
+    const float maxWheelSpeed = 7000;
+    // const float maxWheelSpeed = HolonomicChassisSubsystem::getMaxWheelSpeed(
+    //     drivers->refSerial.getRefSerialReceivingData(),
+    //     drivers->refSerial.getRobotData().chassis.powerConsumptionLimit);
+
+    // what we will multiply x and y speed by to take into account rotation
+    float rotationLimitedMaxTranslationalSpeed =
+        chassis->calculateRotationTranslationalGain(chassisRotation) * maxWheelSpeed;
+
+    *chassisXDesiredWheelspeed = limitVal(
+        operatorInterface->getMecanumHorizontalTranslationKeyBoard(),
+        -rotationLimitedMaxTranslationalSpeed,
+        rotationLimitedMaxTranslationalSpeed);
+
+    *chassisYDesiredWheelspeed = limitVal(
+        operatorInterface->getMecanumVerticalTranslationKeyBoard(),
+        -rotationLimitedMaxTranslationalSpeed,
+        rotationLimitedMaxTranslationalSpeed);
+}
+
+
+
+float ChassisSubsystem::calculateRotationTranslationalGain(
+    float chassisRotationDesiredWheelspeed)
+{
+    // what we will multiply x and y speed by to take into account rotation
+    float rTranslationalGain = 1.0f;
+
+    // the x and y movement will be slowed by a fraction of auto rotation amount for maximizing
+    // power consumption when the wheel rotation speed for chassis rotation is greater than the
+    // MIN_ROTATION_THRESHOLD
+    if (fabsf(chassisRotationDesiredWheelspeed) > 800.0) //Min_rotation_threshold
+    {
+        const float maxWheelSpeed = 7000;
+
+        // power(max revolve speed + min rotation threshold - specified revolve speed, 2) /
+        // power(max revolve speed, 2)
+        rTranslationalGain = powf(
+            (maxWheelSpeed + 800.0 - fabsf(chassisRotationDesiredWheelspeed)) /
+                maxWheelSpeed,
+            2.0f);
+
+        rTranslationalGain = limitVal(rTranslationalGain, 0.0f, 1.0f);
+    }
+    return rTranslationalGain;
+}
+
 void  ChassisSubsystem::setVelocityMecanumDrive(float translationHorizontal, float translationVertical, float rotation) {
 
     float left_front_input = translationHorizontal + translationVertical + rotation;
