@@ -140,7 +140,7 @@ Robot::Robot(src::Drivers &drivers)
     yawMotor(
         &drivers, 
         MotorId::MOTOR8, 
-        CanBus::CAN_BUS2, 
+        CanBus::CAN_BUS1, 
         false, "YawMotor"),
     turretYawMotor(
         &yawMotor,

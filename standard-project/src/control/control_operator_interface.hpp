@@ -97,6 +97,12 @@ public:
     bool isRightSwitchUp();
 
     bool isGKeyPressed();
+
+    /**
+     * Scales `value` when ctrl/shift are pressed and returns the scaled value.
+     */
+    float applyChassisSpeedScaling(float value);
+    
 private:
     tap::communication::serial::Remote &remote;
 
@@ -119,30 +125,7 @@ private:
     /**
      * Scales `value` when ctrl/shift are pressed and returns the scaled value.
      */
-    float applyChassisSpeedScaling(float value);
-private:
-    tap::communication::serial::Remote &remote;
 
-    uint32_t prevUpdateCounterX = 0;
-    uint32_t prevUpdateCounterY = 0;
-    uint32_t prevUpdateCounterR = 0;
-
-    tap::algorithms::LinearInterpolationPredictor chassisXInput;
-    tap::algorithms::LinearInterpolationPredictor chassisYInput;
-    tap::algorithms::LinearInterpolationPredictor chassisRInput;
-
-    tap::algorithms::Ramp chassisXInputRamp;
-    tap::algorithms::Ramp chassisYInputRamp;
-    tap::algorithms::Ramp chassisRInputRamp;
-
-    uint32_t prevChassisXInputCalledTime = 0;
-    uint32_t prevChassisYInputCalledTime = 0;
-    uint32_t prevChassisRInputCalledTime = 0;
-
-    /**
-     * Scales `value` when ctrl/shift are pressed and returns the scaled value.
-     */
-    float applyChassisSpeedScaling(float value);
 };
 }  // namespace control
 

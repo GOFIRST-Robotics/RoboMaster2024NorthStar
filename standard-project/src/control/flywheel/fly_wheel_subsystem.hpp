@@ -46,7 +46,7 @@ namespace control::flyWheel {
                 
             void refresh() override {};
 
-            const char* getName() override { return "FlyWheels"; }
+            const char* getName() const override { return "FlyWheels"; }
         
         private:
         tap::gpio::Pwm *pwmController;
