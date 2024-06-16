@@ -24,6 +24,8 @@
 #include "standard.hpp"
 
 #include "tap/util_macros.hpp"
+#include "turret/turret_constants/standard_turret_constants.hpp"
+
 
 using tap::can::CanBus;
 using tap::communication::serial::Remote;
@@ -34,6 +36,7 @@ using tap::control::setpoint::MoveIntegralCommand;
 using tap::control::setpoint::UnjamIntegralCommand;
 using tap::control::setpoint::MoveUnjamIntegralComprisedCommand;
 
+// using namespace control::turret;
 
 namespace control
 {
@@ -123,8 +126,53 @@ Robot::Robot(src::Drivers &drivers)
         {&rotateAndUnjamAgitatorCommand},
         RemoteMapState(
             Remote::Switch::LEFT_SWITCH, Remote::SwitchState::UP), 
-            true )
+            true ),
+        controlOperatorInterface(
+        drivers.remote),
+    pitchMotor(
+        &drivers, 
+        MotorId::MOTOR5, 
+        CanBus::CAN_BUS1, 
+        true, "pitchMotor"),
+    turretPitchMotor(
+        &pitchMotor,
+        PITCH_MOTOR_CONFIG),
+    yawMotor(
+        &drivers, 
+        MotorId::MOTOR8, 
+        CanBus::CAN_BUS2, 
+        false, "YawMotor"),
+    turretYawMotor(
+        &yawMotor,
+        YAW_MOTOR_CONFIG
+    ),
+    turretGyro(
+        &drivers),
+    turret(
+        &drivers,
+        &pitchMotor,
+        &yawMotor, 
+        PITCH_MOTOR_CONFIG,
+        YAW_MOTOR_CONFIG, 
+        turretGyro),
+    yawController(
+        turretYawMotor, 
+        YAW_PID_CONFIG),
+    pitchController(
+        turretPitchMotor, 
+        PITCH_PID_CONFIG),
+    turretUserControlCommand(
+        &drivers,
+        controlOperatorInterface,
+        &turret, 
+        &yawController,
+        &pitchController,
+        USER_YAW_INPUT_SCALAR,
+        USER_PITCH_INPUT_SCALAR,
+        0
+    )
 {
+    
 }
 
 void Robot::initSubsystemCommands()
@@ -141,6 +189,7 @@ void Robot::initializeSubsystems()
     m_ChassisSubsystem.initialize();
     agitatorSubsystem.initialize();
     m_FlyWheel.initialize();
+    turret.initialize();
 }
 
 void Robot::registerSoldierSubsystems()
@@ -148,12 +197,14 @@ void Robot::registerSoldierSubsystems()
     drivers.commandScheduler.registerSubsystem(&m_ChassisSubsystem);
     drivers.commandScheduler.registerSubsystem(&agitatorSubsystem);
     drivers.commandScheduler.registerSubsystem(&m_FlyWheel);
+    drivers.commandScheduler.registerSubsystem(&turret);
 }
 
 void Robot::setDefaultSoldierCommands()
 {
     m_ChassisSubsystem.setDefaultCommand(&m_MecanumDriveCommand);
     m_FlyWheel.setDefaultCommand(&m_FlyWheelCommand);
+    turret.setDefaultCommand(&turretUserControlCommand);
 }
 
 void Robot::startSoldierCommands() {}
@@ -163,5 +214,6 @@ void Robot::registerSoldierIoMappings()
     drivers.commandMapper.addMap(&leftMousePressed);
     drivers.commandMapper.addMap(&rightMousePressed);
     drivers.commandMapper.addMap(&leftSwitchUp);
+
 }   
 }  // namespace control
