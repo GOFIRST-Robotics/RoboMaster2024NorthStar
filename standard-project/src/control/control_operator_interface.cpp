@@ -30,7 +30,6 @@ namespace control
 {
 ControlOperatorInterface::ControlOperatorInterface(Remote &remote) : remote(remote) {}
 
-
 template <typename T>
 int getSign(T val)
 {
@@ -226,5 +225,12 @@ float ControlOperatorInterface::getMecanumRotationKeyBoard()
 
 
 
+    bool ControlOperatorInterface::isRightSwitchUp(){
+        return (remote.getSwitch(Remote::Switch::RIGHT_SWITCH) == Remote::SwitchState::UP);
+    }
 
+    bool ControlOperatorInterface::isGKeyPressed(){
+        return (remote.keyPressed(Remote::Key::G));
+    }
+    
 }  // namespace control

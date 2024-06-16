@@ -82,7 +82,7 @@
         "cfloat": "cpp",
         "climits": "cpp"
     },
-    "C_Cpp.errorSquiggles": "Enabled",
+    "C_Cpp.errorSquiggles": "enabled",
     "C_Cpp.default.includePath": [
         "standard-project/taproot/src",
         "standard-project/src",
