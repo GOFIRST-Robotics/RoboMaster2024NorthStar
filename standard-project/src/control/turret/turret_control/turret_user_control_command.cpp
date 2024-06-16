@@ -66,10 +66,10 @@ void TurretUserControlCommand::execute()
     //     userPitchInputScalar * controlOperatorInterface.getTurretPitchInput(turretID);
     // pitchController->runController(dt, pitchSetpoint);
 
-    // const float yawSetpoint =
-    //     yawController->getSetpoint() +
-    //     userYawInputScalar * controlOperatorInterface.getTurretYawInput(turretID);
-    // yawController->runController(dt, yawSetpoint);
+    const float yawSetpoint =
+        yawController->getSetpoint() +
+        userYawInputScalar * controlOperatorInterface.getTurretYawInput(turretID);
+    yawController->runController(dt, yawSetpoint);
 }
 
 bool TurretUserControlCommand::isFinished() const
