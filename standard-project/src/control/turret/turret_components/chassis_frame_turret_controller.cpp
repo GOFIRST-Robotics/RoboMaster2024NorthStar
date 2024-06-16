@@ -47,18 +47,23 @@ void ChassisFrameYawTurretController::initialize()
     }
 }
 
+
+float unwrappedPrimaryYawDebug = 0;
 void ChassisFrameYawTurretController::runController(const uint32_t dt, const float desiredSetpoint)
 {
     // limit the yaw min and max angles
     turretMotor.setChassisFrameSetpoint(desiredSetpoint);
 
     // position controller based on turret yaw gimbal
-    float positionControllerError = turretMotor.getValidChassisMeasurementError();
+    float unwrappedPrimaryYaw = turretMotor.getChassisFrameUnwrappedMeasuredAngle()* 3/4;
+    unwrappedPrimaryYawDebug = unwrappedPrimaryYaw;
+    float positionControllerError = turretMotor.getValidMinError(turretMotor.getChassisFrameSetpoint(), unwrappedPrimaryYaw);
+
 
     float pidOutput =
         pid.runController(positionControllerError, turretMotor.getChassisFrameVelocity(), dt);
 
-    turretMotor.setMotorOutput(pidOutput);
+    // turretMotor.setMotorOutput(pidOutput);
 }
 
 void ChassisFrameYawTurretController::setSetpoint(float desiredSetpoint)
