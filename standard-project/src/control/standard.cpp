@@ -42,7 +42,7 @@ Robot::Robot(src::Drivers &drivers)
         drivers.remote),
     pitchMotor(
         &drivers, 
-        MotorId::MOTOR7, 
+        MotorId::MOTOR5, 
         CanBus::CAN_BUS1, 
         false, "pitchMotor"),
     turretPitchMotor(
@@ -51,7 +51,7 @@ Robot::Robot(src::Drivers &drivers)
     yawMotor(
         &drivers, 
         MotorId::MOTOR8, 
-        CanBus::CAN_BUS1, 
+        CanBus::CAN_BUS2, 
         false, "YawMotor"),
     turretYawMotor(
         &yawMotor,

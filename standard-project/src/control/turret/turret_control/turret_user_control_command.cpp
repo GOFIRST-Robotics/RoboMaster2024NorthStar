@@ -55,15 +55,18 @@ void TurretUserControlCommand::initialize()
     prevTime = tap::arch::clock::getTimeMilliseconds();
 }
 
+
+float pitchSetpointDebug = 0;
 void TurretUserControlCommand::execute()
 {
     uint32_t currTime = tap::arch::clock::getTimeMilliseconds();
     uint32_t dt = currTime - prevTime;
     prevTime = currTime;
 
-    // const float pitchSetpoint =
-    //     pitchController->getSetpoint() +
-    //     userPitchInputScalar * controlOperatorInterface.getTurretPitchInput(turretID);
+    const float pitchSetpoint =
+        pitchController->getSetpoint() +
+        userPitchInputScalar * controlOperatorInterface.getTurretPitchInput(turretID);
+    pitchSetpointDebug = pitchSetpoint;
     // pitchController->runController(dt, pitchSetpoint);
 
     // const float yawSetpoint =
