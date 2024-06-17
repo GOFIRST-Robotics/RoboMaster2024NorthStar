@@ -26,6 +26,8 @@
 
 #include "turret_controller_interface.hpp"
 
+
+
 namespace control::turret
 {
 class TurretMotor;
@@ -85,6 +87,7 @@ public:
 
 private:
     tap::algorithms::SmoothPid pid;
+
 };
 
 /**

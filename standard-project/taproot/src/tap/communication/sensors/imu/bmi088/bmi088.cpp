@@ -75,7 +75,6 @@ void Bmi088::requestRecalibration()
 
 void Bmi088::initialize(float sampleFrequency, float mahonyKp, float mahonyKi)
 {
-#if !defined(PLATFORM_HOSTED)
     ImuCS1Accel::GpioOutput();
     ImuCS1Gyro::GpioOutput();
 
@@ -85,7 +84,7 @@ void Bmi088::initialize(float sampleFrequency, float mahonyKp, float mahonyKi)
     ImuSpiMaster::initialize<SystemClock, 10_MHz>();
 
     DELAY_MS(1);
-#endif
+
 
     imuState = ImuState::IMU_NOT_CALIBRATED;
 

@@ -28,7 +28,7 @@ namespace control::turret
     TurretMCBCGryo::TurretMCBCGryo(src::Drivers* drivers) : drivers(drivers) {}
 
     float TurretMCBCGryo::getRoll() { 
-    prevRoll = modm::toRadian(currRoll);
+    prevRoll = currRoll;
     currRoll = modm::toRadian(drivers->bmi088.getRoll()); 
     updateRevolutionCounter(currRoll, prevRoll, rollRevolutions);
     return currRoll;
@@ -39,7 +39,7 @@ namespace control::turret
     }
 
     float TurretMCBCGryo::getPitch() { 
-        prevPitch = modm::toRadian(getPitch());
+        prevPitch = getPitch();
         currPitch = modm::toRadian(drivers->bmi088.getPitch()); 
         updateRevolutionCounter(currPitch, prevPitch, pitchRevolutions);
         return currPitch;
@@ -50,7 +50,7 @@ namespace control::turret
     }
 
     float TurretMCBCGryo::getYaw() { 
-        prevYaw = modm::toRadian(currYaw);
+        prevYaw = currYaw;
         currYaw = modm::toRadian(drivers->bmi088.getYaw()); 
         updateRevolutionCounter(currYaw, prevYaw, yawRevolutions);
         return currYaw;

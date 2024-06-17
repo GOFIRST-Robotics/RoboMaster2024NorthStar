@@ -52,7 +52,6 @@ Robot::Robot(src::Drivers &drivers)
               .canBus = CanBus::CAN_BUS1,
               .wheelVelocityPidConfig = modm::Pid<float>::Parameter(10, 0, 0, 0, 16'000),
           }),
-      m_MecanumDriveCommand(m_ChassisSubsystem, drivers.controlOperatorInterface),
       agitatorSubsystemConfig{
         .gearRatio = 36.0f,
         .agitatorMotorId = tap::motor::MOTOR7,
@@ -127,8 +126,6 @@ Robot::Robot(src::Drivers &drivers)
         RemoteMapState(
             Remote::Switch::LEFT_SWITCH, Remote::SwitchState::UP), 
             true ),
-        controlOperatorInterface(
-        drivers.remote),
     pitchMotor(
         &drivers, 
         MotorId::MOTOR5, 
@@ -142,12 +139,13 @@ Robot::Robot(src::Drivers &drivers)
         MotorId::MOTOR8, 
         CanBus::CAN_BUS1, 
         false, "YawMotor"),
-    turretYawMotor(
-        &yawMotor,
-        YAW_MOTOR_CONFIG
-    ),
     turretGyro(
         &drivers),
+    turretYawMotor(
+        &yawMotor,
+        YAW_MOTOR_CONFIG,
+        &turretGyro
+    ),
     turret(
         &drivers,
         &pitchMotor,
@@ -163,13 +161,19 @@ Robot::Robot(src::Drivers &drivers)
         PITCH_PID_CONFIG),
     turretUserControlCommand(
         &drivers,
-        controlOperatorInterface,
+        m_ControlOperatorInterface,
         &turret, 
         &yawController,
         &pitchController,
         USER_YAW_INPUT_SCALAR,
         USER_PITCH_INPUT_SCALAR,
         0
+    ),
+        turretOrientedDriveCommand(
+        &drivers,
+        m_ControlOperatorInterface,
+        &m_ChassisSubsystem,
+        &turretYawMotor
     )
 {
     
@@ -202,7 +206,7 @@ void Robot::registerSoldierSubsystems()
 
 void Robot::setDefaultSoldierCommands()
 {
-    m_ChassisSubsystem.setDefaultCommand(&m_MecanumDriveCommand);
+    m_ChassisSubsystem.setDefaultCommand(&turretOrientedDriveCommand);
     m_FlyWheel.setDefaultCommand(&m_FlyWheelCommand);
     turret.setDefaultCommand(&turretUserControlCommand);
 }

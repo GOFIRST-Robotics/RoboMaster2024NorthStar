@@ -26,7 +26,9 @@
 
 #include "tap/control/setpoint/commands/move_integral_command.hpp"
 #include "control/chassis/chassis_subsystem.hpp"
+
 #include "control/chassis/mecanum_drive_command.hpp"
+
 #include "tap/control/setpoint/commands/unjam_integral_command.hpp"
 #include "tap/control/setpoint/commands/move_unjam_integral_comprised_command.hpp"
 
@@ -44,6 +46,9 @@
 #include "turret/turret_super_structure/standard_turret_subsystem.hpp"
 #include "turret/turret_control/turret_user_control_command.hpp"
 #include "turret/turret_components/chassis_frame_turret_controller.hpp"
+#include "turret/turret_components/yaw_turret_motor.hpp"
+
+#include "control/chassis/turret_orientated_drive_command.hpp"
 
 
 
@@ -74,7 +79,8 @@ private:
 
     control::chassis::ChassisSubsystem m_ChassisSubsystem;
 
-    control::chassis::MecanumDriveCommand m_MecanumDriveCommand;
+    // control::chassis::MecanumDriveCommand m_MecanumDriveCommand;
+    
     
     control::agitator::VelocityAgitatorSubsystemConfig agitatorSubsystemConfig;
     tap::algorithms::SmoothPidConfig agitatorVelocityPidConfig;
@@ -95,16 +101,19 @@ private:
     control::flyWheel::FlyWheelSubsystem m_FlyWheel;
 
     control::flyWheel::flyWheelCommand m_FlyWheelCommand;
-    ControlOperatorInterface controlOperatorInterface;
     tap::motor::DjiMotor pitchMotor;
     TurretMotor turretPitchMotor;
     tap::motor::DjiMotor yawMotor;
-    TurretMotor turretYawMotor;
     TurretMCBCGryo turretGyro;
+    YawTurretMotor turretYawMotor;
     StandardTurretSubsystem turret;
     ChassisFrameYawTurretController yawController;
     ChassisFramePitchTurretController pitchController;
     TurretUserControlCommand turretUserControlCommand;
+
+    control::chassis::ChassisTurretDriveCommand turretOrientedDriveCommand;
+
+    
 
     
 

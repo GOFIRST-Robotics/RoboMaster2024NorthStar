@@ -17,20 +17,19 @@
  * along with aruw-mcb.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef CHASSIS_IMU_DRIVE_COMMAND_HPP_
-#define CHASSIS_IMU_DRIVE_COMMAND_HPP_
+#pragma once
 
 #include "tap/algorithms/wrapped_float.hpp"
 #include "tap/communication/sensors/imu/bmi088/bmi088.hpp"
 #include "tap/control/command.hpp"
 #include "tap/drivers.hpp"
 
-#include "control/turret/turret_components/turret_motor.hpp"
+#include "control/turret/turret_components/yaw_turret_motor.hpp"
 #include "control/control_operator_interface.hpp"
 
 #include "control/chassis/chassis_subsystem.hpp"
 
-namespace chassis
+namespace control::chassis
 {
 /**
  * A command that allows the user to control the translation and rotation of the chassis. Can be
@@ -74,11 +73,11 @@ public:
      */
     ChassisTurretDriveCommand(
         tap::Drivers* drivers,
-        control::ControlOperatorInterface* operatorInterface,
+        control::ControlOperatorInterface& operatorInterface,
         control::chassis::ChassisSubsystem* chassis,
-        const control::turret::TurretMotor* yawMotor);
+        const control::turret::YawTurretMotor* yawMotor);
 
-    void initialize() override;
+    void initialize() override {};
 
     void execute() override;
 
@@ -90,9 +89,9 @@ public:
 
 private:
     tap::Drivers* drivers;
-    control::ControlOperatorInterface* operatorInterface;
+    control::ControlOperatorInterface& operatorInterface;
     control::chassis::ChassisSubsystem* chassis;
-    const control::turret::TurretMotor* yawMotor;
+    const control::turret::YawTurretMotor* yawMotor;
     tap::algorithms::WrappedFloat rotationSetpoint;
     bool imuSetpointInitialized = false;
     uint32_t prevTime = 0;
@@ -100,4 +99,4 @@ private:
 
 }  // namespace aruwsrc::chassis
 
-#endif  // CHASSIS_IMU_DRIVE_COMMAND_HPP_
+

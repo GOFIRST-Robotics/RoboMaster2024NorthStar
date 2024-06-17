@@ -52,7 +52,7 @@ public:
      */
     TurretMotor(tap::motor::MotorInterface *motor, const TurretMotorConfig &motorConfig);
 
-    mockable inline void initialize() { motor->initialize(); }
+    virtual void initialize() { motor->initialize(); }
 
     /// Updates the measured motor angle
     mockable void updateMotorAngle();
@@ -102,7 +102,7 @@ public:
     }
 
     /// @return turret motor angle measurement in chassis frame, unwrapped (not normalized).
-    mockable inline float getChassisFrameUnwrappedMeasuredAngle() const
+    virtual inline float getChassisFrameUnwrappedMeasuredAngle() const
     {
         return chassisFrameUnwrappedMeasurement;
     }

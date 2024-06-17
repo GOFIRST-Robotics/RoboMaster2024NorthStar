@@ -25,13 +25,13 @@
 
 using namespace tap::communication::sensors::imu::bmi088;
 
-namespace chassis
+namespace control::chassis
 {
 ChassisTurretDriveCommand::ChassisTurretDriveCommand(
     tap::Drivers* drivers,
-    control::ControlOperatorInterface* operatorInterfacee,
+    control::ControlOperatorInterface& operatorInterface,
     control::chassis::ChassisSubsystem* chassis,
-    const control::turret::TurretMotor* yawMotor)
+    const control::turret::YawTurretMotor* yawMotor)
     : tap::control::Command(),
       drivers(drivers),
       operatorInterface(operatorInterface),
@@ -42,31 +42,16 @@ ChassisTurretDriveCommand::ChassisTurretDriveCommand(
     addSubsystemRequirement(chassis);
 }
 
-void ChassisTurretDriveCommand::initialize()
-{
-    imuSetpointInitialized =
-        drivers->bmi088.getImuState() == Bmi088::ImuState::IMU_CALIBRATED ||
-        drivers->bmi088.getImuState() == Bmi088::ImuState::IMU_NOT_CALIBRATED;
-
-    if (imuSetpointInitialized)
-    {
-        const float yaw = modm::toRadian(drivers->bmi088.getYaw());
-        rotationSetpoint.setWrappedValue(yaw);
-    }
-
-    prevTime = tap::arch::clock::getTimeMicroseconds();
-}
-
 void ChassisTurretDriveCommand::execute()
 {
     float chassisRotationDesiredWheelspeed = 0.0f;
-    chassisRotationDesiredWheelspeed = operatorInterface->getMecanumRotationKeyBoard();
+    chassisRotationDesiredWheelspeed = operatorInterface.getMecanumRotationKeyBoard();
 
     float chassisXDesiredWheelspeed = 0.0f;
     float chassisYDesiredWheelspeed = 0.0f;
 
     chassis->computeDesiredUserTranslation(
-        operatorInterface,
+        &operatorInterface,
         drivers,
         chassis,
         chassisRotationDesiredWheelspeed,
@@ -80,7 +65,7 @@ void ChassisTurretDriveCommand::execute()
         tap::algorithms::rotateVector(
             &chassisXDesiredWheelspeed,
             &chassisYDesiredWheelspeed,
-            yawMotor->getAngleFromCenter());
+            -yawMotor->getChassisDriveOffset());
     }
 
     chassis->setVelocityMecanumDriveWithWheels(

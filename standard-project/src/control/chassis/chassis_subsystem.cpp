@@ -23,6 +23,8 @@
 
 #include "drivers.hpp"
 
+#include "control/control_operator_interface.hpp"
+
 
 using tap::algorithms::limitVal;
 
@@ -117,7 +119,7 @@ void ChassisSubsystem::computeDesiredUserTranslation(
 
     // what we will multiply x and y speed by to take into account rotation
     float rotationLimitedMaxTranslationalSpeed =
-        chassis->calculateRotationTranslationalGain(chassisRotation) * maxWheelSpeed;
+        calculateRotationTranslationalGain(chassisRotation) * maxWheelSpeed;
 
     *chassisXDesiredWheelspeed = limitVal(
         operatorInterface->getMecanumHorizontalTranslationKeyBoard(),

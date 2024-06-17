@@ -28,11 +28,8 @@
 #include "modm/math/filter/pid.hpp"
 #include "modm/math/geometry/angle.hpp"
 
-#if defined(PLATFORM_HOSTED) && defined(ENV_UNIT_TESTS)
-#include "tap/mock/dji_motor_mock.hpp"
-#else
 #include "tap/motor/dji_motor.hpp"
-#endif
+
 
 
 namespace control::chassis
@@ -98,6 +95,15 @@ public:
     /// @param rotation 
     void setVelocityMecanumDriveWithWheels(float translationHorizontal, float translation_vertical, float rotation);
 
+    void computeDesiredUserTranslation( control::ControlOperatorInterface *operatorInterface,
+    tap::Drivers *drivers,
+    ChassisSubsystem *chassis,
+    float chassisRotation,
+    float *chassisXDesiredWheelspeed,
+    float *chassisYDesiredWheelspeed);
+
+
+    float calculateRotationTranslationalGain(float chassisRotationDesiredWheelspeed);
     ///
     /// @brief Runs velocity PID controllers for the drive motors.
     ///

@@ -40,6 +40,8 @@ ChassisFrameYawTurretController::ChassisFrameYawTurretController(
 
 void ChassisFrameYawTurretController::initialize()
 {
+    //over ridden method
+    turretMotor.initialize();
     if (turretMotor.getTurretController() != this)
     {
         pid.reset();
@@ -52,8 +54,12 @@ void ChassisFrameYawTurretController::initialize()
 // float positionControllerErrorDebug = 0;
 // float desiredYawSetpointDebug = 0;
 // float debugPidOutput = 0;
+float newKpDebug = 0;
+float newkDDebug = 0;
 void ChassisFrameYawTurretController::runController(const uint32_t dt, const float desiredSetpoint)
 {
+    pid.setP(newKpDebug);
+    pid.setD(newkDDebug);
     // limit the yaw min and max angles
     turretMotor.updateMotorAngle();
     turretMotor.setChassisFrameSetpoint(desiredSetpoint);
@@ -61,10 +67,11 @@ void ChassisFrameYawTurretController::runController(const uint32_t dt, const flo
     // desiredYawSetpointDebug = turretMotor.getChassisFrameSetpoint();
 
     // position controller based on turret yaw gimbal
-    float unwrappedPrimaryYaw = turretMotor.getChassisFrameUnwrappedMeasuredAngle()* 3/4;
+    float unwrappedPrimaryYaw = turretMotor.getChassisFrameUnwrappedMeasuredAngle();
     // unwrappedPrimaryYawDebug = unwrappedPrimaryYaw;
     float positionControllerError = turretMotor.getValidMinError(turretMotor.getChassisFrameSetpoint(), unwrappedPrimaryYaw);
 
+    
 
     float pidOutput =
         pid.runController(positionControllerError, turretMotor.getChassisFrameVelocity(), dt);

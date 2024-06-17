@@ -259,7 +259,7 @@ float ControlOperatorInterface::getMecanumRotationKeyBoard()
     float keyInput =
         remote.keyPressed(Remote::Key::Q) - remote.keyPressed(Remote::Key::E);
 
-    const float maxChassisSpeed = 7000;
+    const float maxChassisSpeed = 2500;
 
     float finalR = maxChassisSpeed *
                    limitVal(chassisRInput.getInterpolatedValue(currTime) + keyInput, -1.0f, 1.0f);
